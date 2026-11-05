@@ -311,8 +311,15 @@ if(!window.JSZip) document.write('<script src="https://cdnjs.cloudflare.com/ajax
   <label class="opt"><input type="radio" name="savemode" value="silent"> 保存到默认文件夹，不再弹窗（推荐）</label>
   <label class="opt"><input type="radio" name="savemode" value="ask"> 每次下载都询问保存位置</label>
   <div class="dirrow">
-    <button class="btn ghost mini" id="btnPickDir">📂 选择默认文件夹</button>
+    <button class="btn ghost mini" id="btnPickDir">📂 选择其他文件夹…</button>
     <button class="btn gray mini" id="btnClearDir">清除</button>
+  </div>
+  <div class="dirrow" id="quickDirs" style="display:none">
+    <span style="font-size:12px;color:#8a7a6d">常用位置一键选：</span>
+    <button class="btn ghost mini" data-qdir="download">📥 下载</button>
+    <button class="btn ghost mini" data-qdir="desktop">🖥 桌面</button>
+    <button class="btn ghost mini" data-qdir="documents">📄 文档</button>
+    <button class="btn ghost mini" data-qdir="pictures">🖼 图片</button>
   </div>
   <div class="dirname" id="dirName">未设置（将保存到系统「下载」文件夹）</div>
   <div class="hint" style="text-align:left; margin-top:6px">设置只保存在本机；保存仅在本地写文件，不会联网上传。</div>
@@ -369,6 +376,22 @@ $("btnPickDir").onclick=async ()=>{
   }catch(e){ if(e&&e.name!=="AbortError") toast("选择失败："+e.message, true); }
 };
 $("btnClearDir").onclick=()=>{ SavePref.dir=""; SavePref.dirHandle=null; saveDirLabel(); };
+/* 一键常用位置（仅 exe 原生模式）：绕开系统弹窗，直接指定真实路径 */
+async function initQuickDirs(){
+  if(!nativeApi) return;
+  try{
+    const dirs=await nativeApi.get_system_dirs();
+    if(dirs && Object.keys(dirs).length){
+      $("quickDirs").style.display="flex";
+      document.querySelectorAll("#quickDirs [data-qdir]").forEach(b=>{
+        const p=dirs[b.dataset.qdir];
+        if(!p){ b.style.display="none"; return; }
+        b.onclick=()=>{ SavePref.dir=p; saveDirLabel(); toast("已选择："+p); };
+      });
+    }
+  }catch(e){}
+}
+if(nativeApi) initQuickDirs(); else { const q=setInterval(()=>{ if(nativeApi){ clearInterval(q); initQuickDirs(); } },300); }
 $("setSave").onclick=async ()=>{
   const mode=document.querySelector('input[name=savemode]:checked').value;
   if(mode==="silent" && nativeApi && !SavePref.dir){ toast("请先选择默认保存文件夹", true); return; }
