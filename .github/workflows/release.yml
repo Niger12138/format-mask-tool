@@ -1,1 +1,45 @@
-bmFtZTogUGFja2FnZSBhbmQgUmVsZWFzZQoKb246CiAgcHVzaDoKICAgIHBhdGhzOgogICAgICAtICJleGUucDIuKiIKCnBlcm1pc3Npb25zOgogIGNvbnRlbnRzOiB3cml0ZQoKam9iczoKICByZWxlYXNlOgogICAgcnVucy1vbjogdWJ1bnR1LWxhdGVzdAogICAgc3RlcHM6CiAgICAgIC0gdXNlczogYWN0aW9ucy9jaGVja291dEB2NAoKICAgICAgLSBuYW1lOiBBc3NlbWJsZSBleGUgZnJvbSBwYXJ0cwogICAgICAgIGlkOiBhc20KICAgICAgICBydW46IHwKICAgICAgICAgIGlmICEgbHMgZXhlLnAyLiogPi9kZXYvbnVsbCAyPiYxOyB0aGVuIGVjaG8gIm5vIHBhcnRzIHlldCI7IGV4aXQgMDsgZmkKICAgICAgICAgIGNhdCBleGUucDIuKiA+ICJGb3JtYXRNYXNrVG9vbC5leGUiCiAgICAgICAgICBTSVpFPSQoc3RhdCAtYyVzICJGb3JtYXRNYXNrVG9vbC5leGUiKQogICAgICAgICAgZWNobyAic2l6ZT0kU0laRSAvIGV4cGVjdD0zODM0Mzg5NiIKICAgICAgICAgIGlmIFsgIiRTSVpFIiAtbmUgMzgzNDM4OTYgXTsgdGhlbiBlY2hvICJwYXJ0aWFsLCBza2lwIjsgZXhpdCAwOyBmaQogICAgICAgICAgZWNobyAicmVhZHk9dHJ1ZSIgPj4gIiRHSVRIVUJfT1VUUFVUIgoKICAgICAgLSBuYW1lOiBDcmVhdGUgUmVsZWFzZSBhbmQgdXBsb2FkIGV4ZQogICAgICAgIGlmOiBzdGVwcy5hc20ub3V0cHV0cy5yZWFkeSA9PSAndHJ1ZScgJiYgc3VjY2VzcygpCiAgICAgICAgdXNlczogc29mdHByb3BzL2FjdGlvbi1naC1yZWxlYXNlQHYyCiAgICAgICAgd2l0aDoKICAgICAgICAgIHRhZ19uYW1lOiB2MS4wCiAgICAgICAgICBuYW1lOiAidjEuMCDmoLzlvI/ovazmjaLkuI7miZPnoIHlt6XlhbciCiAgICAgICAgICBib2R5OiAiV2luZG93cyDni6znq4vniYjvvIjlhY3lronoo4XvvIznuqYgMzdNQu+8ieOAguS4i+i9vSBGb3JtYXRNYXNrVG9vbC5leGUg5Y+M5Ye76L+Q6KGM5Y2z5Y+v77yM5peg6ZyA5a6J6KOFIFB5dGhvbiDmiJblhbbku5bkvp3otZbjgILmlrDniYjmnKzlt7LlhoXnva7jgIzimpnvuI8g6K6+572u44CN77ya5Y+v6K6+572u6buY6K6k5L+d5a2Y5paH5Lu25aS577yM5LiL6L295LiN5YaN5q+P5qyh5by556qX44CCIgogICAgICAgICAgZmlsZXM6ICJGb3JtYXRNYXNrVG9vbC5leGUiCgogICAgICAtIG5hbWU6IFJlbW92ZSBwYXJ0IGZpbGVzCiAgICAgICAgaWY6IHN0ZXBzLmFzbS5vdXRwdXRzLnJlYWR5ID09ICd0cnVlJyAmJiBzdWNjZXNzKCkKICAgICAgICBydW46IHwKICAgICAgICAgIGdpdCBjb25maWcgdXNlci5uYW1lICJnaXRodWItYWN0aW9uc1tib3RdIgogICAgICAgICAgZ2l0IGNvbmZpZyB1c2VyLmVtYWlsICI0MTg5ODI4MitnaXRodWItYWN0aW9uc1tib3RdQHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbSIKICAgICAgICAgIGdpdCBybSAtcWYgZXhlLnAyLiogMj4vZGV2L251bGwgfHwgdHJ1ZQogICAgICAgICAgZ2l0IHJtIC1xZiBleGUucGFydC4wOSAyPi9kZXYvbnVsbCB8fCB0cnVlCiAgICAgICAgICBnaXQgY29tbWl0IC1xbSAiY2hvcmU6IHJlbW92ZSBleGUgcGFydCBmaWxlcyBhZnRlciByZWxlYXNlIiB8fCB0cnVlCiAgICAgICAgICBnaXQgcHVzaAo=
+name: Package and Release
+
+on:
+  push:
+    paths:
+      - "exe.p2.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble exe from parts
+        id: asm
+        run: |
+          if ! ls exe.p2.* >/dev/null 2>&1; then echo "no parts yet"; exit 0; fi
+          : > FormatMaskTool.exe
+          for f in exe.p2.*; do base64 -d "$f" >> FormatMaskTool.exe; done
+          SIZE=$(stat -c%s "FormatMaskTool.exe")
+          echo "size=$SIZE / expect=38343896"
+          if [ "$SIZE" -ne 38343896 ]; then echo "partial, skip"; exit 0; fi
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release and upload exe
+        if: steps.asm.outputs.ready == 'true' && success()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0
+          name: "v1.0 格式转换与打码工具"
+          body: "Windows 独立版（免安装，约 37MB）。下载 FormatMaskTool.exe 双击运行即可，无需安装 Python 或其他依赖。新版本已内置「⚙️ 设置」：可设置默认保存文件夹，下载不再每次弹窗。"
+          files: "FormatMaskTool.exe"
+
+      - name: Remove part files
+        if: steps.asm.outputs.ready == 'true' && success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -qf exe.p2.* 2>/dev/null || true
+          git rm -qf exe.part.09 2>/dev/null || true
+          git commit -qm "chore: remove exe part files after release" || true
+          git push
