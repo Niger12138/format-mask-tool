@@ -21,17 +21,17 @@ jobs:
           : > FormatMaskTool.exe
           for f in exe.p2.*; do base64 -d "$f" >> FormatMaskTool.exe; done
           SIZE=$(stat -c%s "FormatMaskTool.exe")
-          echo "size=$SIZE / expect=38367884"
-          if [ "$SIZE" -ne 38367884 ]; then echo "partial, skip"; exit 0; fi
+          echo "size=$SIZE / expect=38368523"
+          if [ "$SIZE" -ne 38368523 ]; then echo "partial, skip"; exit 0; fi
           echo "ready=true" >> "$GITHUB_OUTPUT"
 
       - name: Create Release and upload exe
         if: steps.asm.outputs.ready == 'true' && success()
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.2
-          name: "v1.2 格式转换与打码工具"
-          body: "Windows 独立版（免安装，约 37MB）。下载 FormatMaskTool.exe 双击运行即可，无需安装 Python 或其他依赖。v1.1 修复：在其他电脑上白屏/打不开的问题——启动时自动检测 WebView2 运行时，缺失时给出安装指引，并新增故障日志（%TEMP%\\FormatMaskTool.log）。"
+          tag_name: v1.3
+          name: "v1.3 格式转换与打码工具"
+          body: "Windows 独立版（免安装，约 37MB）。下载 FormatMaskTool.exe 双击运行即可。v1.3：进一步修复白屏——禁用 GPU 加速渲染、独立用户数据目录；页面 20 秒加载不出来会提示改用默认浏览器打开（功能一致）；故障日志在 %TEMP%\\FormatMaskTool.log。"
           files: "FormatMaskTool.exe"
 
       - name: Remove part files
