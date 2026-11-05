@@ -1,1 +1,136 @@
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K44CM5qC85byP6L2s5o2i5LiO5omT56CB5bel5YW344CN5L+u5pS55oql5ZGKCuS7k+W6k++8mmh0dHBzOi8vZ2l0aHViLmNvbS9OaWdlcjEyMTM477yI5pys6aG555uu77yJCuW3peWFt++8muagvOW8j+i9rOaNouS4juaJk+eggeW3peWFty5odG1s77yI5Y2V5paH5Lu25pys5Zyw572R6aG15bqU55So77yJCuW5s+WPsO+8mldpbmRvd3MgLyDmtY/op4jlmajmnKzlnLDov5DooYzvvIzlhajpg6jlpITnkIblnKjmnKzlnLDlrozmiJDvvIzkuI3kuIrkvKDku7vkvZXmlofku7YKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KCuOAkOmhueebruWumuS9jeOAkQrkuIDnq5nlvI/mnKzlnLDlm77niYcvUERGIOWkhOeQhuW3peWFt++8jOmbhuaIkCA3IOWkp+WKn+iDvemhteetvu+8mgogIDEuIOWbvueJh+aJk+egge+8iOaJuemHj+mYn+WIl++8jOmprOi1m+WFiy/nuq/oibLmtoLmirnvvIzmoYbpgInmiZPnoIHvvIzlj6/mkqTplIDvvIkKICAyLiBQREYg5omT56CB77yI6YCQ6aG15qGG6YCJ77yM5b2S5LiA5YyW5Z2Q5qCH6K6w5b2V77yM6auY5riF6YeN57uY5a+85Ye677yJCiAgMy4g5Zu+54mH6L2sIFBERu+8iOWkmuWbvuaOkuW6j+WQiOW5tu+8jOaUr+aMgei3n+maj+WOn+WbvuWwuuWvuOaIliBBNO+8iQogIDQuIFBERiDovazlm77niYfvvIgxeC8yeC8zeCDmuIXmmbDluqbvvIxQTkcvSlBHL1dFQlDvvIzljZXpobXmiJbmiZPljIUgemlw77yJCiAgNS4g5Zu+54mH5qC85byP6L2s5o2i77yIUE5HL0pQRy9XRUJQL0JNUC9QREYg5LqU56eN6L6T5Ye677yM5om56YeP77yJCiAgNi4g5Zu+54mH5Y6L57yp77yI5pyA6ZW/6L656ZmQ5Yi2ICsg5pm66IO95Y6L57yp77yJCiAgNy4gUERGIOWOi+e8qe+8iOaVtOS7vSBQREYg5pm66IO95Y6L57yp77yJCuaJgOacieWvvOWHuuWFpeWPo+Wdh+aUr+aMgeOAjOebruagh+aWh+S7tuWkp+Wwj+OAje+8muS6jOWIhuaQnOe0oui0qOmHjyArIOW/heimgeaXtuetieavlOe8qeWwuuWvuO+8jAroh6rliqjpgLzov5HnlKjmiLfmjIflrprlpKflsI/vvIjlpoIg4omINTAwS0LvvInvvIznjrDmnInlpKflsI/lrp7ml7bmmL7npLrkuJTnm67moIflj6rog73lsI/kuo7njrDmnInjgIIKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuS4gOOAgeWIneeJiOW8gOWPkQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQotIOWNleaWh+S7tiBIVE1MIOW3peWFt++8jOaaluapmeiJsueOu+eSg+aLn+aAgeS4reaWh+eVjOmdogotIOS6lOWkp+WKn+iDve+8muWbvueJh+aJk+eggSAvIFBERiDmiZPnoIEgLyDlm77niYfovawgUERGIC8gUERGIOi9rOWbvueJhyAvIOWbvueJh+agvOW8j+i9rOaNogotIOaKgOacr+agiO+8mnBkZi5qc++8iOivu+WPlua4suafkyBQREbvvInjgIFqc1BERu+8iOeUn+aIkCBQREbvvInjgIFKU1ppcO+8iOaJk+WMhe+8iQotIOaJk+eggeaUr+aMgemprOi1m+WFiy/nuq/oibLmtoLmirnkuKTnp43mqKHlvI/vvIzmi5bmi73moYbpgInjgIHlpJrljLrln5/jgIHmkqTplIDjgIHmuIXnqboKLSBQREYg5omT56CB5oyJ6aG15a2Y5YKo5b2S5LiA5YyW5Z2Q5qCH77yM5a+85Ye65pe2IDJ4IOmrmOa4hemHjee7mO+8iOecn+aJk+egge+8jOaXoOazlei/mOWOn++8iQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K5LqM44CB5Yqf6IO96L+t5Luj77yI5oyJ55So5oi35Y+N6aaI77yJCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCjEuIOm7mOiupOaJk+eggeaWueW8j+aUueS4uuOAjOe6r+iJsua2guaKueOAje+8iOWQjum7mOiupOminOiJsuaUueS4uueZveiJsiAjZmZmZmZm77yJCjIuIOagvOW8j+i9rOaNouaWsOWiniBCTVDvvIjmiYvliqjnvJbnoIEgMjQg5L2N5L2N5Zu+77yJ5ZKMIFBERiDovpPlh7rmoLzlvI8KMy4g5paw5aKe44CM5Zu+54mH5Y6L57yp44CN6aG1562+77yI5pyA6ZW/6L656ZmQ5Yi2IDQwMDAvMjAwMC8xOTIwLzEyODAvODAwcHjvvIkKNC4g5YWo6YOo5a+85Ye65YWl5Y+j5paw5aKe44CM55uu5qCH5aSn5bCP44CN6YCJ6aG577yI4omIMTAwS0J+4omINU1C77yJ77yaCiAgIC0g5Zu+54mH5omT56CB44CBUERGIOaJk+egge+8iOaVtOS4qiBQREYg5oC75aSn5bCP5YiG5pGK5Yiw5q+P6aG177yJCiAgIC0gUERGIOi9rOWbvueJh++8iOaMieavj+mhteiuoeeul++8ieOAgeWbvueJh+agvOW8j+i9rOaNou+8iOaMieavj+W8oOiuoeeul++8iQogICAtIOWbvueJh+WOi+e8qeOAgVBERiDljovnvKnpobXnrb7lkIzmoLfmlK/mjIEKNS4g5Y6L57yp562W55Wl77ya5YWI5LqM5YiG5pCc57Si6LSo6YeP77yINSV+OTUl77yM57qmIDctOCDmrKHplIHlrprvvInvvIzotKjph4/liLDlpLQKICAg5LuN5LiN5aSf5bCP5pe25oyJIDAuOCDlgI3pgJDmraXnrYnmr5TnvKnlsLrlr7jph43or5XvvIzmnIDlpJogOCDova4KNi4g55WM6Z2i566A5YyW77ya5Yig6Zmk5YWo6YOo5ruR5Z2X77yI5by65bqmL+i0qOmHj++8ie+8jOmprOi1m+WFi+W8uuW6puWbuuWumuacgOmrmOahoyA0MAo3LiDjgIznjrDmnInlpKflsI/jgI3mmL7npLrooaXlhajmiYDmnInpobXnrb7vvIznm67moIfpgInpobkg4omlIOeOsOacieiHquWKqOe9rueBsCArIOWFnOW6leagoemqjAo4LiDmlrDlop7jgIxQREYg5Y6L57yp44CN6aG1562+77yI5q+P6aG16YeN5riy5p+TICsg5YiG5pGK5Y6L57yp77yM6LaK5Y6L6LaK5aSn5pe25o+Q6YaS5L+d55WZ5Y6f5paH5Lu277yJCjkuIOWbvueJh+aJk+eggeWNh+e6p+aJuemHj+aooeW8j++8muWkmumAiemYn+WIl+OAgeS4iuS4gOW8oC/kuIvkuIDlvKDliIfmjaLoh6rliqjkv53lrZjov5vluqbjgIEKICAg56e76Zmk5pys5byg44CB6YeN5paw6YCJ5Zu+6L+95Yqg6Zif5YiX77yb5Y2V5byg5pe26Ieq5Yqo6ZqQ6JeP57+76aG15a+86IiqCjEwLiDlm77niYfmiZPnoIHpobXnsr7nroDvvJrnp7vpmaTjgIzmnKzlvKDovawgUERGIC8g5YWo6YOo6L2sIFBERuOAjeaMiemSru+8iOWrjOiHg+iCv++8iQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K5LiJ44CB5oCn6IO95LyY5YyWCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi0g5Yqg6L295o+Q6YCf77yaNCDkuKrlvJXmk47vvIhwZGYuanMgLyBqc1BERiAvIEpTWmlw77yJ5LuO5rW35aSWIENETiDmnKzlnLDljJbliLAKICBsaWJzLyDnm67lvZXvvIjlm73lhoXmupAgbnBtbWlycm9yIOS4i+i9ve+8ie+8jOaJk+W8gOenkue6p+OAgeWPr+WujOWFqOemu+e6v++8mwogIGxpYnMg57y65aSx5pe26Ieq5Yqo5Zue6YCA5Zu95YaF6ZWc5YOPCi0g6LSo6YeP5LqM5YiG5pCc57Si57uT5p6c5aSN55So77yIYmxvYiDnm7TmjqXlpI3nlKjvvInvvIzmibnph4/ovazmjaIv5Y6L57yp5o+Q6YCfIDEwLTIwJQotIFBERiDmiZPnoIEgLyBQREYg5Y6L57yp5a+85Ye65ZCM5qC35aSN55So5pCc57Si57uT5p6c77yM5aSa6aG1IFBERiDmj5DpgJ8gMzAtNTAlCi0g5pKk6ZSA5qCI5YaF5a2Y5LiK6ZmQIDMwME1C77yI6LaF6ZmQ6Ieq5Yqo5Lii5pyA5pen5b+r54Wn77yJ77yM6Ziy5q2i5aSn5Zu+5Y2h5py6Ci0g6YeN5paw6YCJ5paH5Lu25pe2IGRvYy5kZXN0cm95KCkg6YeK5pS+5penIFBERiDmlofmoaPlhoXlrZgKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuWbm+OAgeeLrOeriyBleGUg5omT5YyFCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi0g5L2/55SoIFB5SW5zdGFsbGVyICsgcHl3ZWJ2aWV377yIV2luZG93cyDns7vnu58gRWRnZSBXZWJWaWV3MiDlhoXmoLjvvIkKICDmiZPljIXkuLrnnJ/mraPnmoTni6znq4vnqpflj6PlupTnlKjvvIjkuI3lvIDmtY/op4jlmajvvIzlj4zlh7vljbPnlKjvvIznqpflj6MgMTE4MHg4MjDvvIkKLSDlvJXmk47kuI7pobXpnaLlhajpg6jlhoXltYzvvIzljZXmlofku7YgMzdNQiDnu7/oibLkvr/mkLrvvIzmi7fliLDku7vkvZUgV2luMTAvMTEg5Y+v55SoCi0g5bqU55So5Zu+5qCH77yaQUkg55Sf5oiQ5qmZ6Imy5riQ5Y+Y5Zu+5qCH77yI5paH5qGj6L2s5o2i5b6q546v566t5aS0ICsg6ams6LWb5YWL5YOP57Sg5Z2X77yJ77yMCiAg57uPIEFJIOWOu+awtOWNsOWQjui9rOWkmuWwuuWvuCAuaWNv77yIMTZ+MjU2cHjvvInmiZPlhaUgZXhlCi0g6Ieq5qOA5py65Yi277yaLS1zZWxmdGVzdCDlj4LmlbDpqozor4HmnI3liqHlkK/liqjkuI7pobXpnaLlrozmlbTmgKcKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuS6lOOAgeS4iei9ruiHquafpeS4juS9k+mqjOi1sOafpeS/ruWkje+8iOWFsSAyMCsg5aSE77yJCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuOAkOesrOS4gOi9riDku6PnoIHoh6rmn6UgMTAg5aSE44CRCiAgMS4g55uu5qCH5aSn5bCP5qCh6aqM5aSx6LSl5a+86Ie05Yqg6L296YGu572p5rC45LmF5Y2h5q2777yI5YWI5qCh6aqM5YaN5byA6YGu572pICsgdHJ5L2NhdGNo77yJCiAgMi4gUERGIOi+k+WHuuS4jeS8muecn+ato+i+vuagh++8iOWOi+e8qeW8leaTjue7n+S4gCLotKjph4/liLDlpLTnvKnlsLrlr7jph43or5UiOCDova7vvIkKICAzLiB6aXAg5ZCM5ZCN5paH5Lu25LqS55u46KaG55uW77yIemlwVW5pcXVlQWRkIOiHquWKqOWKoOW6j+WPtyBfMi9fM++8iQogIDQuIOaSpOmUgOagiOWGheWtmOeCuOW8ue+8iDMwME1CIOS4iumZkO+8iQogIDUuIOerluWbvue8qeWwuuWvuOaPkOekuuS4jeaYvuekugogIDYuIFBERiDljovnvKnotorljovotorlpKfkuI3mj5DphpLvvIjmmI7noa7lu7rorq7kv53nlZnljp/mlofku7bvvIkKICA3LiBQTkcg6YCP5piO5Zu+6L2sIFBERiDpu5HlupXvvIjnu5/kuIDlnqvnmb3lupXvvIkKICA4LiDkuIDmrKHmi5blhaXlpJrlm77ku4XnlKjnrKzkuIDlvKDml6Dmj5DnpLoKICA5LiDmlofku7blkI0gaW5uZXJIVE1MIOaLvOaOpemjjumZqe+8iOaUuSB0ZXh0Q29udGVudO+8iQogIDEwLiDph43lpI3lrprkuYnnmoQgZm10U2l6ZSDmuIXnkIYKCuOAkOesrOS6jOi9riDnlKjmiLfkvZPpqozotbDmn6UgMTAgKyA0IOWkhOOAkQogIDEuIOaJuemHj+WkhOeQhui/m+W6piLpu5Hnm5Ii4oaSIOWFqOmDqOaYvuekuiLnrKwgeCAvIG4g6aG177yI5byg77yJIuWunuaXtui/m+W6pgogIDIuIOWNsemZqeaTjeS9nOaXoOehruiupCDihpIg6Ieq5a6a5LmJ56Gu6K6k5by556qX77yI5riF56m65YWo6YOoL+enu+mZpOacrOW8oO+8jOaUr+aMgSBFbnRlci9Fc2PvvIkKICAzLiDkuIvovb3lkI7kuI3nn6Xmlofku7blnKjlk6og4oaSIOaYjuehruaPkOekuiLlt7Lkv53lrZjliLDjgIzkuIvovb3jgI3mlofku7blpLkiK+WunumZheWkp+WwjwogIDQuIOaJk+eggemhteW3peWFt+agj+i/h+aMpCDihpIg5YiG57uE6YeN5o6S77yI5omT56CB5bel5YW3772c6L6T5Ye66K6+572u772c5a+86Iiq772c5a+85Ye6772c6Zif5YiX77yJCiAgNS4gUERGIOaJk+eggeaYvuekuiLlt7LmiZPnoIHpobXvvJox44CBMyLvvIjotoUgOCDpobXoh6rliqjmiKrmlq0i562JIE4g6aG1Iu+8iQogIDYuIOmprOi1m+WFi+aooeW8j+S4i+iHquWKqOmakOiXj+minOiJsumAieaLqeWZqAogIDcuIOaMiemSruWRveWQjS/kuLvmrKHnu5/kuIDvvIhQREYg5Y6L57yp6aG1IumHjeaWsOmAieaWh+S7tiLjgIHljZXpobXkuIvovb3kuLrkuLvmjInpkq7vvIkKICA4LiDmjaLmlofku7blkI7ml6fnu5Pmnpzoh6rliqjmuIXnqboKICA5LiBQREYg6L2s5Zu+54mH5paw5aKeIFdFQlAg5qC85byPCiAgMTAuIOWbvueJh+i9rCBQREYg6YeN5aSN5re75Yqg6Ieq5Yqo5Y676YeN77yI5YWo6YOo6YeN5aSN5pe25piO56Gu5o+Q56S677yJCiAg6KGl5L+uIDQg5aSE77ya5Zu+54mH5Yqg6L295Lit56aB5q2i5a+85Ye6L+ahhumAie+8iOmYsuS4suWbvuWQjOexu++8ieOAgeenu+mZpOacrOW8oOmHiuaUvgogIOaSpOmUgOW/q+eFp+WGheWtmOOAgeehruiupOW8ueeql+mUruebmOaUr+aMgQoK44CQ56ys5LiJ6L2uIOiHquafpSA3IOWkhOOAkQogIDEuIOagvOW8j+i9rOaNoi/lm77niYfljovnvKnpobXjgIznm67moIflpKflsI/jgI3lj6PlvoTnu5/kuIDkuLoi5q+P5bygIu+8iOS4jue9rueBsOWIpOaWreOAgQogICAgIOWFnOW6leagoemqjOS4gOiHtO+8jOaYjuehruaYvuekuiLlubPlnYfmr4/lvKAg4omIIFgi77yJ77yM5bm25aSN55So5YWs5YWx5Ye95pWwCiAgMi4g6YCP5piOIFBORyDovawgQk1QIOm7keW6le+8iEJNUCDnmb3lupXlnqvlupXvvIkKICAzLiDlm77niYfovawgUERGIOacquivu+WPluWujOaIkOeahOWbvuS4jeWGjemdmem7mOS4oumhte+8iOaYjuehruitpuWRiu+8iQogIDQuIOWFqOmDqOaJk+WMheaXtuaPkOekuui3s+i/h+S6hiBOIOW8oOacquaJk+eggeWbvueJhwogIDUuIOmHjeWkjea3u+WKoOWFqOmDqOmHjeWkjeaXtueahOaOqui+nuS8mOWMlgogIDYuIOW3suaJk+eggemhteagh+iusOi2hemVv+aIquaWrQogIDcuIOWbvueJh+WOi+e8qemhteaJi+WGmee9rueBsOmAu+i+keW5tuWFpeWFrOWFseWHveaVsAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K5YWt44CB5Lqk5LuY54mpCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi0g5qC85byP6L2s5o2i5LiO5omT56CB5bel5YW3Lmh0bWwg4oCU4oCUIOWNleaWh+S7tue9kemhteeJiO+8iOmcgOS4jiBsaWJzLyDlkIznm67lvZXvvIkKLSBsaWJzLyDigJTigJQg5pys5Zyw5byV5pOO5paH5Lu277yIcGRmLm1pbi5qc+OAgXBkZi53b3JrZXIubWluLmpz44CBCiAganNwZGYudW1kLm1pbi5qc+OAgWpzemlwLm1pbi5qc++8iQotIOagvOW8j+i9rOaNouaJk+eggeW3peWFty5leGUg4oCU4oCUIOeLrOeri+eql+WPo+eJiO+8iOacquWFpeW6k++8jOS9k+enr+Wkp+S4lOaYk+iiq+adgOi9r+ivr+aKpe+8jAogIOmcgOimgeWPr+iHquihjOeUqCBleGUtYnVpbGQg55uu5b2V6YeN5paw5omT5YyF77yJCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQrkuIPjgIHlkI7nu63mm7TmlrDvvIgyMDI2LTExLTA1IOihpeWFhe+8iQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoxLiDmlrDlop7jgIzimpnvuI8g6K6+572u44CN5YWl5Y+j77yI6aG1562+5qCP5Y+z5L6n77yJ77yM5Y+v6YWN572u6buY6K6k5L+d5a2Y5L2N572u5LiO5LiL6L295pa55byP77yaCiAgIC0g5YWN5omT5omw5qih5byP77ya5omA5pyJ5a+85Ye66Ieq5Yqo5a2Y5YWl6buY6K6k5paH5Lu25aS577yM5LiN5YaN5q+P5qyh5by556qX77ybCiAgICAg5ZCM5ZCN5paH5Lu26Ieq5Yqo6L+95YqgICgxKSAoMikg57yW5Y+377yM57ud5LiN6KaG55uW5pen5paH5Lu2CiAgIC0g6K+i6Zeu5qih5byP77ya5q+P5qyh5LiL6L295by55Ye657O757uf5Y+m5a2Y5Li65a+56K+d5qGGCiAgIC0gZXhlIOeJiO+8mumAmui/hyBweXdlYnZpZXcg5Y6f55Sf5qGl77yI6YCJ5paH5Lu25aS5IC8g55u05o6l5YaZ55uY77yJ5a6e546wCiAgIC0g5rWP6KeI5Zmo54mI77yaRmlsZSBTeXN0ZW0gQWNjZXNzIEFQSSDorrDkvY/nm67lvZXmjojmnYPvvJvkuI3mlK/mjIHml7YKICAgICDoh6rliqjlm57pgIDjgIzlj6blrZjkuLog4oaSIOaZrumAmuS4i+i9veOAjeS4iee6p+WFnOW6lQogICAtIOS/ruWkjeeCue+8muatpOWJjeavj+asoeS4i+i9vemDveS8muW8ueS4gOasoeWtmOWCqOS9jee9rumAieaLqeahhgoyLiBleGUg6YeN5paw5omT5YyF77yI5ZCr5LiK6L+w5Yqf6IO977yJ77yM6ZqPIFJlbGVhc2UgdjEuMCDlj5HluIMKICAgRm9ybWF0TWFza1Rvb2wuZXhlIOmZhOS7tu+8iOe6piAzN01C77yM5Y+M5Ye75Y2z55So44CB5YWN5a6J6KOF77yJCjMuIOaWsOWiniAuZ2l0aHViL3dvcmtmbG93cy9yZWxlYXNlLnltbO+8mkdpdEh1YiBBY3Rpb25zIOS6keerr+iHquWKqAogICDnu4Too4XliIblnZflubbliJvlu7ogUmVsZWFzZe+8iOacrOWcsOe9kee7nOaXoOazleebtOi/niBHaXRIdWIgQVBJ77yMCiAgIOmHh+eUqOOAjOWIhuWdl+aPkOS6pCArIOS6keerr+e7hOijheWPkeW4g+OAjeaWueahiO+8iQoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K5oql5ZGK55Sf5oiQ5pe26Ze077yaMjAyNi0xMS0wNe+8iOabtOaWsOeJiO+8iQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo=
+========================================================
+「格式转换与打码工具」修改报告
+仓库：https://github.com/Niger12138（本项目）
+工具：格式转换与打码工具.html（单文件本地网页应用）
+平台：Windows / 浏览器本地运行，全部处理在本地完成，不上传任何文件
+========================================================
+
+【项目定位】
+一站式本地图片/PDF 处理工具，集成 7 大功能页签：
+  1. 图片打码（批量队列，马赛克/纯色涂抹，框选打码，可撤销）
+  2. PDF 打码（逐页框选，归一化坐标记录，高清重绘导出）
+  3. 图片转 PDF（多图排序合并，支持跟随原图尺寸或 A4）
+  4. PDF 转图片（1x/2x/3x 清晰度，PNG/JPG/WEBP，单页或打包 zip）
+  5. 图片格式转换（PNG/JPG/WEBP/BMP/PDF 五种输出，批量）
+  6. 图片压缩（最长边限制 + 智能压缩）
+  7. PDF 压缩（整份 PDF 智能压缩）
+所有导出入口均支持「目标文件大小」：二分搜索质量 + 必要时等比缩尺寸，
+自动逼近用户指定大小（如 ≈500KB），现有大小实时显示且目标只能小于现有。
+
+--------------------------------------------------------
+一、初版开发
+--------------------------------------------------------
+- 单文件 HTML 工具，暖橙色玻璃拟态中文界面
+- 五大功能：图片打码 / PDF 打码 / 图片转 PDF / PDF 转图片 / 图片格式转换
+- 技术栈：pdf.js（读取渲染 PDF）、jsPDF（生成 PDF）、JSZip（打包）
+- 打码支持马赛克/纯色涂抹两种模式，拖拽框选、多区域、撤销、清空
+- PDF 打码按页存储归一化坐标，导出时 2x 高清重绘（真打码，无法还原）
+
+--------------------------------------------------------
+二、功能迭代（按用户反馈）
+--------------------------------------------------------
+1. 默认打码方式改为「纯色涂抹」（后默认颜色改为白色 #ffffff）
+2. 格式转换新增 BMP（手动编码 24 位位图）和 PDF 输出格式
+3. 新增「图片压缩」页签（最长边限制 4000/2000/1920/1280/800px）
+4. 全部导出入口新增「目标大小」选项（≈100KB~≈5MB）：
+   - 图片打码、PDF 打码（整个 PDF 总大小分摊到每页）
+   - PDF 转图片（按每页计算）、图片格式转换（按每张计算）
+   - 图片压缩、PDF 压缩页签同样支持
+5. 压缩策略：先二分搜索质量（5%~95%，约 7-8 次锁定），质量到头
+   仍不够小时按 0.8 倍逐步等比缩尺寸重试，最多 8 轮
+6. 界面简化：删除全部滑块（强度/质量），马赛克强度固定最高档 40
+7. 「现有大小」显示补全所有页签，目标选项 ≥ 现有自动置灰 + 兜底校验
+8. 新增「PDF 压缩」页签（每页重渲染 + 分摊压缩，越压越大时提醒保留原文件）
+9. 图片打码升级批量模式：多选队列、上一张/下一张切换自动保存进度、
+   移除本张、重新选图追加队列；单张时自动隐藏翻页导航
+10. 图片打码页精简：移除「本张转 PDF / 全部转 PDF」按钮（嫌臃肿）
+
+--------------------------------------------------------
+三、性能优化
+--------------------------------------------------------
+- 加载提速：4 个引擎（pdf.js / jsPDF / JSZip）从海外 CDN 本地化到
+  libs/ 目录（国内源 npmmirror 下载），打开秒级、可完全离线；
+  libs 缺失时自动回退国内镜像
+- 质量二分搜索结果复用（blob 直接复用），批量转换/压缩提速 10-20%
+- PDF 打码 / PDF 压缩导出同样复用搜索结果，多页 PDF 提速 30-50%
+- 撤销栈内存上限 300MB（超限自动丢最旧快照），防止大图卡机
+- 重新选文件时 doc.destroy() 释放旧 PDF 文档内存
+
+--------------------------------------------------------
+四、独立 exe 打包
+--------------------------------------------------------
+- 使用 PyInstaller + pywebview（Windows 系统 Edge WebView2 内核）
+  打包为真正的独立窗口应用（不开浏览器，双击即用，窗口 1180x820）
+- 引擎与页面全部内嵌，单文件 37MB 绿色便携，拷到任何 Win10/11 可用
+- 应用图标：AI 生成橙色渐变图标（文档转换循环箭头 + 马赛克像素块），
+  经 AI 去水印后转多尺寸 .ico（16~256px）打入 exe
+- 自检机制：--selftest 参数验证服务启动与页面完整性
+
+--------------------------------------------------------
+五、三轮自查与体验走查修复（共 20+ 处）
+--------------------------------------------------------
+【第一轮 代码自查 10 处】
+  1. 目标大小校验失败导致加载遮罩永久卡死（先校验再开遮罩 + try/catch）
+  2. PDF 输出不会真正达标（压缩引擎统一"质量到头缩尺寸重试"8 轮）
+  3. zip 同名文件互相覆盖（zipUniqueAdd 自动加序号 _2/_3）
+  4. 撤销栈内存炸弹（300MB 上限）
+  5. 竖图缩尺寸提示不显示
+  6. PDF 压缩越压越大不提醒（明确建议保留原文件）
+  7. PNG 透明图转 PDF 黑底（统一垫白底）
+  8. 一次拖入多图仅用第一张无提示
+  9. 文件名 innerHTML 拼接风险（改 textContent）
+  10. 重复定义的 fmtSize 清理
+
+【第二轮 用户体验走查 10 + 4 处】
+  1. 批量处理进度"黑盒"→ 全部显示"第 x / n 页（张）"实时进度
+  2. 危险操作无确认 → 自定义确认弹窗（清空全部/移除本张，支持 Enter/Esc）
+  3. 下载后不知文件在哪 → 明确提示"已保存到「下载」文件夹"+实际大小
+  4. 打码页工具栏过挤 → 分组重排（打码工具｜输出设置｜导航｜导出｜队列）
+  5. PDF 打码显示"已打码页：1、3"（超 8 页自动截断"等 N 页"）
+  6. 马赛克模式下自动隐藏颜色选择器
+  7. 按钮命名/主次统一（PDF 压缩页"重新选文件"、单页下载为主按钮）
+  8. 换文件后旧结果自动清空
+  9. PDF 转图片新增 WEBP 格式
+  10. 图片转 PDF 重复添加自动去重（全部重复时明确提示）
+  补修 4 处：图片加载中禁止导出/框选（防串图同类）、移除本张释放
+  撤销快照内存、确认弹窗键盘支持
+
+【第三轮 自查 7 处】
+  1. 格式转换/图片压缩页「目标大小」口径统一为"每张"（与置灰判断、
+     兜底校验一致，明确显示"平均每张 ≈ X"），并复用公共函数
+  2. 透明 PNG 转 BMP 黑底（BMP 白底垫底）
+  3. 图片转 PDF 未读取完成的图不再静默丢页（明确警告）
+  4. 全部打包时提示跳过了 N 张未打码图片
+  5. 重复添加全部重复时的措辞优化
+  6. 已打码页标记超长截断
+  7. 图片压缩页手写置灰逻辑并入公共函数
+
+--------------------------------------------------------
+六、交付物
+--------------------------------------------------------
+- 格式转换与打码工具.html —— 单文件网页版（需与 libs/ 同目录）
+- libs/ —— 本地引擎文件（pdf.min.js、pdf.worker.min.js、
+  jspdf.umd.min.js、jszip.min.js）
+- 格式转换打码工具.exe —— 独立窗口版（未入库，体积大且易被杀软误报，
+  需要可自行用 exe-build 目录重新打包）
+
+--------------------------------------------------------
+七、后续更新（2026-11-05 补充）
+--------------------------------------------------------
+1. 新增「⚙️ 设置」入口（页签栏右侧），可配置默认保存位置与下载方式：
+   - 免打扰模式：所有导出自动存入默认文件夹，不再每次弹窗；
+     同名文件自动追加 (1) (2) 编号，绝不覆盖旧文件
+   - 询问模式：每次下载弹出系统另存为对话框
+   - exe 版：通过 pywebview 原生桥（选文件夹 / 直接写盘）实现
+   - 浏览器版：File System Access API 记住目录授权；不支持时
+     自动回退「另存为 → 普通下载」三级兜底
+   - 修复点：此前每次下载都会弹一次存储位置选择框
+2. exe 重新打包（含上述功能），随 Release v1.0 发布
+   FormatMaskTool.exe 附件（约 37MB，双击即用、免安装）
+3. 新增 .github/workflows/release.yml：GitHub Actions 云端自动
+   组装分块并创建 Release（本地网络无法直连 GitHub API，
+   采用「分块提交 + 云端组装发布」方案）
+
+========================================================
+报告生成时间：2026-11-05（更新版）
+========================================================
