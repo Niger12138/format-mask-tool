@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>格式转换 & 打码工具</title>
+<!-- 引擎本地加载（秒开、可离线）；本地缺失时自动回退国内镜像 -->
+<script src="libs/pdf.min.js"></script>
+<script>window.__pdfLocal=!!window.pdfjsLib;</script>
+<script src="libs/jspdf.umd.min.js"></script>
+<script src="libs/jszip.min.js"></script>
+<script>
+if(!window.pdfjsLib) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"><\/script>');
+if(!window.jspdf) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>');
+if(!window.JSZip) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"><\/script>');
+</script>
+<style>
+  :root{
+    --accent:#ff7e3e; --accent2:#ffb37e; --bg:#faf6f2; --card:rgba(255,255,255,.75);
+    --text:#3a2e26; --muted:#8a7a6d; --border:rgba(255,126,62,.25); --danger:#e05252;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    background:linear-gradient(135deg,#fff3e8 0%,#faf6f2 45%,#ffe8d6 100%);
+    min-height:100vh; color:var(--text); padding:24px 16px 60px;
+  }
+  .wrap{max-width:960px; margin:0 auto;}
+  header{ text-align:center; margin-bottom:22px;}
+  header h1{font-size:26px; letter-spacing:1px;}
+  header h1 span{color:var(--accent);}
+  header p{color:var(--muted); font-size:13px; margin-top:6px;}
+  .glass{
+    background:var(--card); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--border); border-radius:18px;
+    box-shadow:0 8px 30px rgba(255,126,62,.12);
+  }
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; padding:10px; margin-bottom:18px;}
+  .tabs button{
+    flex:1; min-width:130px; padding:10px 8px; border:none; border-radius:12px;
+    background:transparent; font-size:14px; cursor:pointer; color:var(--muted);
+    transition:.2s; font-weight:bold;
+  }
+  .tabs button:hover{background:rgba(255,126,62,.12); color:var(--text);}
+  .tabs button.active{background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:0 4px 12px rgba(255,126,62,.35);}
+  .panel{display:none; padding:20px;}
+  .panel.active{display:block;}
+  .dropzone{
+    border:2px dashed var(--border); border-radius:14px; padding:34px 16px; text-align:center;
+    color:var(--muted); cursor:pointer; transition:.2s; font-size:14px;
+  }
+  .dropzone:hover,.dropzone.drag{background:rgba(255,126,62,.08); border-color:var(--accent);}
+  .dropzone .big{font-size:34px; margin-bottom:8px;}
+  .toolbar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:14px 0;}
+  .toolbar label{font-size:13px; color:var(--muted);}
+  select,input[type=range],input[type=color]{cursor:pointer;}
+  select{padding:6px 10px; border-radius:8px; border:1px solid var(--border); background:#fff; color:var(--text); font-size:13px;}
+  .btn{
+    padding:9px 16px; border:none; border-radius:10px; cursor:pointer; font-size:14px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-weight:bold;
+    transition:.15s; box-shadow:0 3px 10px rgba(255,126,62,.3);
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:disabled{opacity:.45; cursor:not-allowed; transform:none;}
+  .btn.ghost{background:#fff; color:var(--accent); border:1px solid var(--border); box-shadow:none;}
+  .btn.gray{background:#eee; color:#666; box-shadow:none;}
+  .btn.danger{background:var(--danger); box-shadow:0 3px 10px rgba(224,82,82,.3);}
+  .canvas-box{position:relative; text-align:center; overflow:auto; border-radius:12px; background:
+    repeating-conic-gradient(#f3ede7 0% 25%, #fff 0% 50%) 0 0/20px 20px; padding:10px;}
+  .canvas-box canvas{max-width:100%; height:auto; box-shadow:0 2px 10px rgba(0,0,0,.12); cursor:crosshair; touch-action:none;}
+  .hint{font-size:12px; color:var(--muted); margin-top:8px; text-align:center;}
+  .pagenav{display:flex; align-items:center; justify-content:center; gap:12px; margin-top:10px; font-size:14px;}
+  .imglist{display:flex; flex-direction:column; gap:8px; margin-top:12px;}
+  .imgitem{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; background:#fff; border:1px solid var(--border);}
+  .imgitem img{width:52px; height:40px; object-fit:cover; border-radius:6px; border:1px solid #eee;}
+  .imgitem .name{flex:1; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .imgitem button{padding:4px 9px; font-size:12px; border-radius:7px; border:none; cursor:pointer; background:#f2ece6; color:#666;}
+  .imgitem button:hover{background:var(--accent); color:#fff;}
+  .result{margin-top:14px; display:flex; flex-direction:column; gap:8px;}
+  .result .row{display:flex; align-items:center; gap:10px; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; font-size:13px;}
+  .result .row a{color:var(--accent); font-weight:bold; text-decoration:none;}
+  .toast{
+    position:fixed; left:50%; top:24px; transform:translateX(-50%);
+    background:#3a2e26; color:#fff; padding:10px 22px; border-radius:24px; font-size:14px;
+    opacity:0; pointer-events:none; transition:.3s; z-index:99; box-shadow:0 6px 20px rgba(0,0,0,.25);
+  }
+  .toast.show{opacity:1;}
+  .toast.err{background:var(--danger);}
+  #loading{position:fixed; inset:0; background:rgba(255,246,238,.8); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; flex-direction:column; gap:14px; z-index:98;}
+  #loading .spin{width:44px; height:44px; border:5px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:sp 1s linear infinite;}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .toolbar .sep{width:1px; height:22px; background:var(--border); margin:0 2px;}
+  #modal{position:fixed; inset:0; background:rgba(58,46,38,.45); display:none; align-items:center; justify-content:center; z-index:100;}
+  #modal .mbox{background:#fff; border-radius:16px; padding:24px 30px; max-width:380px; box-shadow:0 10px 40px rgba(0,0,0,.22); text-align:center;}
+  #modal p{font-size:14px; line-height:1.8; margin-bottom:18px;}
+  #modal .btn{margin:0 6px;}
+  .foot{text-align:center; color:var(--muted); font-size:12px; margin-top:26px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🎨 格式转换 <span>&</span> 打码工具</h1>
+    <p>全部在你电脑本地处理，文件不会上传 · 图形界面 · 新手友好</p>
+  </header>
+
+  <div class="tabs glass" id="tabbar">
+    <button data-p="p1" class="active">🖼️ 图片打码</button>
+    <button data-p="p2">📄 PDF 打码</button>
+    <button data-p="p3">🖼️➜📄 图片转 PDF</button>
+    <button data-p="p4">📄➜🖼️ PDF 转图片</button>
+    <button data-p="p5">🔄 图片格式转换</button>
+    <button data-p="p6">🗜️ 图片压缩</button>
+    <button data-p="p7">📄🗜️ PDF 压缩</button>
+  </div>
+
+  <!-- 图片打码 -->
+  <div class="panel glass active" id="p1">
+    <div class="dropzone" id="dz1">
+      <div class="big">🖼️</div>
+      点击选择图片，或把图片拖到这里<br>
+      <span style="font-size:12px">支持 PNG / JPG / WEBP / BMP / GIF 首帧</span>
+    </div>
+    <input type="file" id="file1" accept="image/*" multiple hidden>
+    <div id="work1" style="display:none">
+      <div class="toolbar">
+        <label>打码方式</label>
+        <select id="m1mode"><option value="mosaic">马赛克</option><option value="solid" selected>纯色涂抹</option></select>
+        <input type="color" id="m1color" value="#ffffff" title="纯色涂抹颜色">
+        <button class="btn ghost" id="btnUndo1">↩ 撤销</button>
+        <button class="btn gray" id="btnClear1">清空重来</button>
+        <span class="sep"></span>
+        <label>输出格式</label>
+        <select id="m1fmt"><option value="png">PNG</option><option value="jpeg" selected>JPG</option><option value="webp">WEBP</option></select>
+        <label>目标大小</label>
+        <select id="m1target"><option value="0" selected>不限</option><option value="100">≈100 KB</option><option value="200">≈200 KB</option><option value="500">≈500 KB</option><option value="1024">≈1 MB</option><option value="2048">≈2 MB</option><option value="5120">≈5 MB</option></select>
+        <button class="btn" id="btnDown1">⬇ 下载本张</button>
+      </div>
+      <div class="toolbar" style="padding-top:0">
+        <button class="btn ghost" id="btnPrev1">← 上一张</button>
+        <span id="imgPos1" style="font-size:13px;font-weight:bold;color:var(--accent)">0 / 0</span>
+        <button class="btn ghost" id="btnNext1">下一张 →</button>
+        <span id="imgName1" style="font-size:13px;color:var(--muted);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+        <span style="flex:1"></span>
+        <label style="font-size:13px;color:var(--accent);font-weight:bold">全部导出：</label>
+        <button class="btn ghost" id="btnZip1">⬇ 全部打包</button>
+        <span class="sep"></span>
+        <button class="btn ghost" id="btnRemove1">🗑 移除本张</button>
+        <button class="btn ghost" id="btnRe1">📂 重新选图</button>
+      </div>
+      <div class="hint" id="sizeInfo1" style="display:none"></div>
+      <div class="canvas-box"><canvas id="cv1"></canvas></div>
+      <div class="hint">✍️ 在图片上按住鼠标拖拽，框选要打码的区域，可框选多处；多张图用 ←/→ 切换，切换时自动保存已打码效果</div>
+    </div>
+  </div>
+
+  <!-- PDF 打码 -->
+  <div class="panel glass" id="p2">
+    <div class="dropzone" id="dz2">
+      <div class="big">📄</div>
+      点击选择 PDF 文件，或把 PDF 拖到这里
+    </div>
+    <input type="file" id="file2" accept="application/pdf" hidden>
+    <div id="work2" style="display:none">
+      <div class="toolbar">
+        <label>打码方式</label>
+        <select id="m2mode"><option value="mosaic">马赛克</option><option value="solid" selected>纯色涂抹</option></select>
+        <input type="color" id="m2color" value="#ffffff">
+        <button class="btn ghost" id="btnUndo2">↩ 撤销本页</button>
+        <button class="btn gray" id="btnClear2">清空全部</button>
+        <button class="btn ghost" id="btnRe2">📂 重新选文件</button>
+        <span style="flex:1"></span>
+        <label>目标大小</label>
+        <select id="m2target"><option value="0" selected>不限</option><option value="500">≈500 KB</option><option value="1024">≈1 MB</option><option value="2048">≈2 MB</option><option value="5120">≈5 MB</option><option value="10240">≈10 MB</option></select>
+        <button class="btn" id="btnPdfSave">⬇ 导出打码后的 PDF</button>
+      </div>
+      <div class="hint" id="sizeInfo2" style="display:none"></div>
+      <div class="canvas-box"><canvas id="cv2"></canvas></div>
+      <div class="hint">✍️ 在页面上拖拽框选打码区域；切换页面继续打码，导出时全部生效</div>
+      <div class="pagenav">
+        <button class="btn ghost" id="pgPrev">← 上一页</button>
+        <span id="pgInfo">- / -</span>
+        <span id="pgMasked" style="font-size:12px;color:var(--accent)"></span>
+        <button class="btn ghost" id="pgNext">下一页 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图片转 PDF -->
+  <div class="panel glass" id="p3">
+    <div class="dropzone" id="dz3">
+      <div class="big">🖼️➜📄</div>
+      点击选择多张图片（可多选），或批量拖到这里
+    </div>
+    <input type="file" id="file3" accept="image/*" multiple hidden>
+    <div class="imglist" id="list3"></div>
+    <div class="toolbar" style="margin-top:14px">
+      <label>页面大小</label>
+      <select id="p3size"><option value="fit">跟随图片尺寸</option><option value="a4">A4 纸（自动适配）</option></select>
+      <button class="btn" id="btnGo3">⬇ 合成 PDF</button>
+    </div>
+    <div class="hint">合并顺序 = 列表顺序，可用 ↑ ↓ 调整</div>
+  </div>
+
+  <!-- PDF 转图片 -->
+  <div class="panel glass" id="p4">
+    <div class="dropzone" id="dz4">
+      <div class="big">📄➜🖼️</div>
+      点击选择 PDF 文件，或把 PDF 拖到这里
+    </div>
+    <input type="file" id="file4" accept="application/pdf" hidden>
+    <div id="work4" style="display:none">
+      <div class="toolbar">
+        <label>清晰度</label>
+        <select id="p4scale"><option value="1">标准 1x</option><option value="2" selected>高清 2x</option><option value="3">超清 3x</option></select>
+        <label>格式</label>
+        <select id="p4fmt"><option value="png" selected>PNG</option><option value="jpeg">JPG</option><option value="webp">WEBP</option></select>
+        <label>目标大小</label>
+        <select id="p4target"><option value="0" selected>不限</option><option value="100">≈100 KB/页</option><option value="200">≈200 KB/页</option><option value="500">≈500 KB/页</option><option value="1024">≈1 MB/页</option></select>
+        <button class="btn" id="btnOne4">⬇ 下载当前页</button>
+        <button class="btn ghost" id="btnAll4">⬇ 全部页面打包下载</button>
+        <button class="btn ghost" id="btnRe4">📂 重新选文件</button>
+      </div>
+      <div class="hint" id="sizeInfo4" style="display:none"></div>
+      <div class="canvas-box"><canvas id="cv4"></canvas></div>
+      <div class="pagenav">
+        <button class="btn ghost" id="pgPrev4">← 上一页</button>
+        <span id="pgInfo4">- / -</span>
+        <button class="btn ghost" id="pgNext4">下一页 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图片格式转换 -->
+  <div class="panel glass" id="p5">
+    <div class="dropzone" id="dz5">
+      <div class="big">🔄</div>
+      点击选择图片（可多选批量转换），或拖到这里<br>
+      <span style="font-size:12px">PNG / JPG / WEBP / BMP 互转</span>
+    </div>
+    <input type="file" id="file5" accept="image/*" multiple hidden>
+    <div class="toolbar">
+      <label>转换成</label>
+      <select id="p5fmt"><option value="png">PNG</option><option value="jpeg" selected>JPG</option><option value="webp">WEBP</option><option value="bmp">BMP</option><option value="pdf">PDF</option></select>
+      <label>目标大小</label>
+      <select id="p5target"><option value="0" selected>不限</option><option value="100">≈100 KB</option><option value="200">≈200 KB</option><option value="500">≈500 KB</option><option value="1024">≈1 MB</option><option value="2048">≈2 MB</option><option value="5120">≈5 MB</option></select>
+      <button class="btn" id="btnGo5">🚀 开始转换</button>
+      <button class="btn ghost" id="btnZip5" disabled>⬇ 全部打包下载</button>
+    </div>
+    <div class="hint" id="sizeInfo5" style="display:none"></div>
+    <div class="result" id="res5"></div>
+  </div>
+
+  <!-- 图片压缩 -->
+  <div class="panel glass" id="p6">
+    <div class="dropzone" id="dz6">
+      <div class="big">🗜️</div>
+      点击选择图片（可多选批量压缩），或拖到这里
+    </div>
+    <input type="file" id="file6" accept="image/*" multiple hidden>
+    <div class="toolbar" style="flex-wrap:nowrap; overflow-x:auto; white-space:nowrap">
+      <label>最长边限制</label>
+      <select id="p6max"><option value="0">不缩小尺寸</option><option value="4000">4000px</option><option value="2000" selected>2000px</option><option value="1920">1920px</option><option value="1280">1280px</option><option value="800">800px</option></select>
+      <label>输出格式</label>
+      <select id="p6fmt"><option value="jpeg" selected>JPG（压缩率最高）</option><option value="webp">WEBP</option><option value="png">PNG（无损）</option></select>
+      <label>目标大小</label>
+      <select id="p6target"><option value="0" selected>不限</option><option value="100">≈100 KB</option><option value="200">≈200 KB</option><option value="500">≈500 KB</option><option value="1024">≈1 MB</option><option value="2048">≈2 MB</option><option value="5120">≈5 MB</option></select>
+      <button class="btn" id="btnGo6">🚀 开始压缩</button>
+      <button class="btn ghost" id="btnZip6" disabled>⬇ 全部打包下载</button>
+    </div>
+    <div class="hint" id="sizeInfo6" style="display:none"></div>
+    <div class="result" id="res6"></div>
+  </div>
+
+  <!-- PDF 压缩 -->
+  <div class="panel glass" id="p7">
+    <div class="dropzone" id="dz7">
+      <div class="big">📄🗜️</div>
+      点击选择 PDF 文件，或拖到这里
+    </div>
+    <input type="file" id="file7" accept="application/pdf" hidden>
+    <div id="work7" style="display:none">
+      <div class="toolbar" style="flex-wrap:nowrap; overflow-x:auto; white-space:nowrap">
+        <label>目标大小</label>
+        <select id="p7target"><option value="0" selected>不限（标准压缩）</option><option value="500">≈500 KB</option><option value="1024">≈1 MB</option><option value="2048">≈2 MB</option><option value="5120">≈5 MB</option><option value="10240">≈10 MB</option><option value="20480">≈20 MB</option></select>
+        <button class="btn" id="btnGo7">🚀 开始压缩</button>
+        <button class="btn ghost" id="btnReset7">📂 重新选文件</button>
+      </div>
+      <div class="hint" id="sizeInfo7" style="display:none"></div>
+      <div class="hint">📄 文件名：<b id="pdf7name">-</b>　｜　压缩原理：每页重新渲染为高清图再合成 PDF，扫描件 / 图片型 PDF 效果最佳</div>
+    </div>
+  </div>
+
+  <div class="foot">WorkBuddy 本地小工具 · 打码处一经导出不可还原，请确认后再分享</div>
+</div>
+
+<div id="modal"><div class="mbox"><p id="modalTxt"></p><button class="btn danger" id="modalOk">确认</button><button class="btn gray" id="modalCancel">取消</button></div></div>
+<div class="toast" id="toast"></div>
+<div id="loading"><div class="spin"></div><div id="loadTxt" style="font-size:14px;color:#8a7a6d">处理中…</div></div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = window.__pdfLocal
+  ? "libs/pdf.worker.min.js"
+  : "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const $ = id => document.getElementById(id);
+
+/* ---------- 公共 ---------- */
+let toastTimer;
+function toast(msg, err){ const t=$("toast"); t.textContent=msg; t.className="toast show"+(err?" err":"");
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.className="toast"+(err?" err":""),2600); }
+function loading(on, txt){ $("loadTxt").textContent=txt||"处理中…"; $("loading").style.display=on?"flex":"none"; }
+function downloadBlob(blob, name, detail){ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),8000);
+  toast("⬇ "+name+"　已保存到「下载」文件夹"+(detail?"（"+detail+"）":"")); }
+/* 危险操作二次确认（自定义弹窗，兼容 exe 独立窗口） */
+let modalResolve=null;
+function askConfirm(msg){ $("modalTxt").textContent=msg; $("modal").style.display="flex";
+  return new Promise(ok=>{ modalResolve=ok; }); }
+$("modalOk").onclick=()=>{ $("modal").style.display="none"; if(modalResolve){ modalResolve(true); modalResolve=null; } };
+$("modalCancel").onclick=()=>{ $("modal").style.display="none"; if(modalResolve){ modalResolve(false); modalResolve=null; } };
+document.addEventListener("keydown", e=>{
+  if($("modal").style.display!=="flex") return;
+  if(e.key==="Escape"){ $("modalCancel").click(); }
+  else if(e.key==="Enter"){ $("modalOk").click(); }
+});
+function baseName(n){ return n.replace(/\.[^.]+$/,""); }
+
+/* 拖拽/点击 通用绑定 */
+function bindDrop(zone, input, cb){
+  zone.addEventListener("click", ()=>input.click());
+  input.addEventListener("change", ()=>{ if(input.files.length) cb([...input.files]); input.value=""; });
+  zone.addEventListener("dragover", e=>{ e.preventDefault(); zone.classList.add("drag"); });
+  zone.addEventListener("dragleave", ()=>zone.classList.remove("drag"));
+  zone.addEventListener("drop", e=>{ e.preventDefault(); zone.classList.remove("drag");
+    const fs=[...e.dataTransfer.files]; if(fs.length) cb(fs); });
+}
+
+/* 马赛克/纯色涂抹：直接作用在 ctx 的指定区域 */
+function applyMask(ctx, x, y, w, h, mode, strength, color){
+  const cw=ctx.canvas.width, ch=ctx.canvas.height;
+  x=Math.max(0, Math.floor(x)); y=Math.max(0, Math.floor(y));
+  w=Math.min(cw-x, Math.ceil(w)); h=Math.min(ch-y, Math.ceil(h));
+  if(w<=0||h<=0) return;
+  if(mode==="solid"){ ctx.fillStyle=color; ctx.fillRect(x,y,w,h); return; }
+  const sw=Math.max(2, Math.round(w/strength)), sh=Math.max(2, Math.round(h/strength));
+  const tmp=document.createElement("canvas"); tmp.width=sw; tmp.height=sh;
+  tmp.getContext("2d").drawImage(ctx.canvas, x,y,w,h, 0,0,sw,sh);
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(tmp, 0,0,sw,sh, x,y,w,h);
+  ctx.imageSmoothingEnabled=true;
+}
+
+/* 拖拽框选辅助：返回归一化坐标 */
+function getPos(canvas, e){
+  const r=canvas.getBoundingClientRect();
+  return { x:(e.clientX-r.left)*(canvas.width/r.width), y:(e.clientY-r.top)*(canvas.height/r.height) };
+}
+
+/* ---------- 智能压缩到目标大小 ---------- */
+function fmtSize(b){ return b>=1048576 ? (b/1048576).toFixed(2)+" MB" : (b/1024).toFixed(1)+" KB"; }
+/* zip 内文件名去重：同名文件自动加 _2、_3，防止互相覆盖 */
+function zipUniqueAdd(zip, name, blob){
+  const m=name.match(/^(.*)(\.[^.]+)$/);
+  const base=m?m[1]:name, ext=m?m[2]:"";
+  let n=name, i=2;
+  while(zip.file(n)){ n=base+"_"+i+ext; i++; }
+  zip.file(n, blob);
+}
+function toBlobOf(canvas, mime, q){ return new Promise(res=>canvas.toBlob(res, mime, q)); }
+/* 等比缩小画布（填白底，避免透明变黑） */
+function scaledCanvas(src, scale){
+  const c=document.createElement("canvas");
+  c.width=Math.max(1, Math.round(src.width*scale));
+  c.height=Math.max(1, Math.round(src.height*scale));
+  const ctx=c.getContext("2d");
+  ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height);
+  ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality="high";
+  ctx.drawImage(src,0,0,c.width,c.height);
+  return c;
+}
+/* 二分搜索图片质量：在不超目标的前提下尽量清晰 */
+async function bestJpegUnder(canvas, mime, target){
+  let b=await toBlobOf(canvas, mime, 0.95);
+  if(b.size<=target) return {q:0.95, size:b.size, blob:b};
+  let lo=0.05, hi=0.95, bestQ=0.05, bestSize=Infinity, bestBlob=null;
+  for(let i=0;i<7;i++){
+    const mid=(lo+hi)/2;
+    const blob=await toBlobOf(canvas, mime, mid);
+    if(blob.size<=target){ bestQ=mid; bestSize=blob.size; bestBlob=blob; lo=mid; } else hi=mid;
+  }
+  return {q:bestQ, size:bestSize, blob:bestBlob};
+}
+async function blobToDataURL(blob){
+  return new Promise((ok,bad)=>{ const r=new FileReader(); r.onload=()=>ok(r.result); r.onerror=bad; r.readAsDataURL(blob); });
+}
+/* 统一出口：canvas → 指定格式 Blob，target(字节)非0时自动压到目标大小附近 */
+async function encodeToTarget(canvas, fmt, target, q0){
+  q0=q0||0.92;
+  if(!target) return await encodeCanvas(canvas, fmt, q0);
+  if(fmt==="jpeg"||fmt==="webp"||fmt==="pdf"){
+    const mime=fmt==="pdf" ? "image/jpeg" : "image/"+fmt;
+    let scale=1;
+    for(let t=0;t<8;t++){
+      const c=scale===1 ? canvas : scaledCanvas(canvas, scale);
+      const best=await bestJpegUnder(c, mime, target);
+      let blob;
+      if(fmt==="pdf"){
+        const {jsPDF}=window.jspdf;
+        const w=c.width*0.75, h=c.height*0.75;
+        const doc=new jsPDF({unit:"pt", format:[w,h], orientation:w>h?"l":"p"});
+        const data=best.blob ? await blobToDataURL(best.blob) : c.toDataURL(mime, best.q);
+        doc.addImage(data,"JPEG",0,0,w,h);
+        blob=doc.output("blob");
+      }else{
+        blob=best.blob || await toBlobOf(c, mime, best.q);
+      }
+      /* 图片和 PDF 一视同仁：达不到目标就缩尺寸重试 */
+      if(blob.size<=target*1.05 || t===7) return blob;
+      scale*=0.8;
+    }
+  }
+  /* PNG / BMP：质量参数无效，只能缩尺寸逼近 */
+  let scale=1;
+  for(let t=0;t<8;t++){
+    const c=scale===1 ? canvas : scaledCanvas(canvas, scale);
+    const blob=await encodeCanvas(c, fmt, q0);
+    if(blob.size<=target*1.05 || t===7) return blob;
+    scale*=0.8;
+  }
+}
+
+/* 现有大小显示 + 目标大小限制（目标只能小于现有；limitBytes 为可选的判断基准，默认=显示值） */
+function updateTargetOptions(selId, currentBytes, infoEl, extra, limitBytes){
+  const sel=$(selId);
+  const lim=limitBytes||currentBytes;
+  [...sel.options].forEach(o=>{ if(+o.value>0) o.disabled=(+o.value*1024)>=lim; });
+  if(sel.selectedOptions[0] && sel.selectedOptions[0].disabled) sel.value="0";
+  const tv=+sel.value*1024;
+  infoEl.style.display="block";
+  infoEl.innerHTML="现有大小：<b style='color:#ff7e3e'>"+fmtSize(currentBytes)+"</b>"+
+    (tv?"　→　目标 ≈ <b style='color:#ff7e3e'>"+fmtSize(tv)+"</b>（只能小于现有大小）":"")+(extra||"");
+}
+
+/* ---------- 标签页切换 ---------- */
+$("tabbar").addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  document.querySelectorAll("#tabbar button").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); $(b.dataset.p).classList.add("active");
+});
+
+/* ---------- 1. 图片打码（支持批量：多张加入队列，逐张处理） ---------- */
+const img1={ list:[], idx:0, history:[], histBytes:0, img:null, name:"", fileSize:0, loadId:0, loading:false };
+bindDrop($("dz1"), $("file1"), files=>{ loadImg1(files); });
+function loadImg1(files){
+  const imgs=files.filter(f=>f.type.startsWith("image/"));
+  if(!imgs.length){ toast("请选择图片文件", true); return; }
+  const startIdx=img1.list.length;
+  imgs.forEach(f=>img1.list.push({ file:f, name:baseName(f.name), url:URL.createObjectURL(f), result:null, fileSize:f.size }));
+  img1.idx=startIdx;
+  if(imgs.length>1) toast("已加入 "+imgs.length+" 张图片，用「上一张 / 下一张」逐张打码");
+  showImg1();
+}
+/* 显示当前图片；若之前打过码（it.result）则恢复打码后的状态 */
+function showImg1(){
+  const it=img1.list[img1.idx];
+  if(!it) return;
+  const cv=$("cv1");
+  const loadId=++img1.loadId; /* 加载令牌：切换太快时丢弃过期的加载结果，防止串图 */
+  img1.loading=true;
+  const im=new Image();
+  im.onload=()=>{
+    if(loadId!==img1.loadId) return;
+    img1.loading=false;
+    img1.img=im; img1.name=it.name; img1.fileSize=it.fileSize;
+    img1.history=[]; img1.histBytes=0;
+    cv.width=im.naturalWidth; cv.height=im.naturalHeight;
+    const ctx=cv.getContext("2d");
+    /* 垫白底：透明背景图导出 JPG 时不会变黑 */
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,cv.width,cv.height);
+    if(it.result){
+      const r=new Image();
+      r.onload=()=>{ if(loadId===img1.loadId) ctx.drawImage(r,0,0); };
+      r.src=it.result;
+    }else{
+      ctx.drawImage(im,0,0);
+    }
+    $("work1").style.display="block"; $("dz1").style.display="none";
+    /* 队列只有一张图时，翻页导航没有意义，自动隐藏 */
+    const single=img1.list.length===1;
+    $("btnPrev1").style.display=single?"none":"";
+    $("btnNext1").style.display=single?"none":"";
+    $("imgPos1").style.display=single?"none":"";
+    $("imgPos1").textContent=(img1.idx+1)+" / "+img1.list.length;
+    $("imgName1").textContent=it.file.name;
+    updateSizeInfo1();
+  };
+  im.onerror=()=>toast("图片加载失败", true);
+  im.src=it.url;
+}
+/* 切换前把当前画布（含已打码效果）保存回队列 */
+function saveCur1(){
+  /* 图片尚在加载中时不保存，防止把上一张的画面存进下一张 */
+  const it=img1.list[img1.idx];
+  if(it && img1.img && !img1.loading) it.result=$("cv1").toDataURL("image/png");
+}
+$("btnPrev1").onclick=()=>{ if(img1.idx>0){ saveCur1(); img1.idx--; showImg1(); } else toast("已经是第一张", true); };
+$("btnNext1").onclick=()=>{ if(img1.idx<img1.list.length-1){ saveCur1(); img1.idx++; showImg1(); } else toast("已经是最后一张", true); };
+$("btnRe1").onclick=()=>{ $("dz1").style.display="block"; $("work1").style.display="none"; toast("可重新选择图片，新选的会追加到列表"); };
+/* 从队列移除当前这张 */
+$("btnRemove1").onclick=async ()=>{
+  const it=img1.list[img1.idx];
+  if(!it){ toast("队列为空", true); return; }
+  if(!await askConfirm("确定把当前这张图移出队列吗？它已打好的码也会一并丢弃。")) return;
+  URL.revokeObjectURL(it.url);
+  img1.list.splice(img1.idx,1);
+  if(!img1.list.length){
+    img1.img=null; img1.fileSize=0; img1.loading=false;
+    $("work1").style.display="none"; $("dz1").style.display="block";
+    $("sizeInfo1").style.display="none";
+    toast("已移除，队列已清空");
+    return;
+  }
+  if(img1.idx>=img1.list.length) img1.idx=img1.list.length-1;
+  img1.history=[]; img1.histBytes=0; /* 释放被移除图片占用的撤销快照内存 */
+  showImg1();
+  toast("已从队列移除本张");
+};
+/* 批量导出：打包全部已打码图片（按当前格式/目标大小设置压缩） */
+$("btnZip1").onclick=async ()=>{
+  saveCur1();
+  const done=img1.list.filter(it=>it.result);
+  if(!done.length){ toast("还没有图片打过码哦", true); return; }
+  const fmt=$("m1fmt").value, target=+$("m1target").value*1024;
+  loading(true,"正在打包 "+done.length+" 张…");
+  try{
+    const zip=new JSZip();
+    for(const [ri,it] of done.entries()){
+      loading(true,"正在打包… 第 "+(ri+1)+" / "+done.length+" 张");
+      const im=await new Promise((ok,bad)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=bad; i.src=it.result; });
+      const c=document.createElement("canvas"); c.width=im.naturalWidth; c.height=im.naturalHeight;
+      c.getContext("2d").drawImage(im,0,0);
+      const blob=await encodeToTarget(c, fmt, target, 0.92);
+      zipUniqueAdd(zip, it.name+"_打码."+FMT_EXT[fmt], blob);
+    }
+    downloadBlob(await zip.generateAsync({type:"blob"}), "打码结果.zip", done.length+" 张已打码图片");
+    const skipped=img1.list.length-done.length;
+    if(skipped) toast("已打包 "+done.length+" 张，另有 "+skipped+" 张未打码被跳过", true);
+  }catch(err){ toast("打包失败："+err.message, true); }
+  loading(false);
+};
+function updateSizeInfo1(){
+  if(!img1.fileSize){ $("sizeInfo1").style.display="none"; return; }
+  updateTargetOptions("m1target", img1.fileSize, $("sizeInfo1"));
+}
+$("m1target").addEventListener("change", updateSizeInfo1);
+(function(){
+  const cv=$("cv1"); let sx,sy,drawing=false;
+  cv.addEventListener("pointerdown", e=>{ if(img1.loading) return; /* 图片加载中禁止框选，防止画到旧画面上 */
+    drawing=true; const p=getPos(cv,e); sx=p.x; sy=p.y; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointerup", e=>{
+    if(!drawing) return; drawing=false;
+    const p=getPos(cv,e);
+    const w=Math.abs(p.x-sx), h=Math.abs(p.y-sy);
+    if(w<6||h<6){ toast("区域太小啦，再框大一点", true); return; }
+    const ctx=cv.getContext("2d");
+    const snap=ctx.getImageData(0,0,cv.width,cv.height);
+    const bytes=snap.data.length;
+    const LIMIT=300*1024*1024; /* 撤销快照总内存上限 300MB，防止大图撑爆内存 */
+    while(img1.histBytes+bytes>LIMIT && img1.history.length){
+      const old=img1.history.shift(); img1.histBytes-=old.data.length;
+    }
+    if(img1.histBytes+bytes<=LIMIT){
+      img1.history.push(snap); img1.histBytes+=bytes;
+    }
+    applyMask(ctx, Math.min(sx,p.x), Math.min(sy,p.y), w, h,
+      $("m1mode").value, 40, $("m1color").value);
+  });
+})();
+$("btnUndo1").onclick=()=>{ if(!img1.history.length){ toast("没有可以撤销的了", true); return; }
+  $("cv1").getContext("2d").putImageData(img1.history.pop(),0,0); };
+$("btnClear1").onclick=async ()=>{ if(!img1.img) return;
+  if(!await askConfirm("确定清空本张图的全部打码吗？清空后无法撤销。")) return;
+  img1.history=[]; img1.histBytes=0;
+  if(img1.list[img1.idx]) img1.list[img1.idx].result=null;
+  const cv=$("cv1"); const ctx=cv.getContext("2d");
+  ctx.fillStyle="#fff"; ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.drawImage(img1.img,0,0); toast("已还原为原图"); };
+$("btnDown1").onclick=async ()=>{
+  if(!img1.img){ toast("请先载入图片", true); return; }
+  if(img1.loading){ toast("图片还在加载中，请稍候一秒", true); return; }
+  const fmt=$("m1fmt").value, target=+$("m1target").value*1024;
+  loading(true,"正在处理…");
+  try{
+    const blob=await encodeToTarget($("cv1"), fmt, target, 0.92);
+    downloadBlob(blob, img1.name+"_打码."+FMT_EXT[fmt], target?("实际 "+fmtSize(blob.size)+"，目标 "+fmtSize(target)):null);
+  }catch(err){ toast("导出失败："+err.message, true); }
+  loading(false);
+};
+
+/* ---------- 2. PDF 打码 ---------- */
+const pdf2={ doc:null, page:1, strokes:{}, drawing:false, sx:0, sy:0 };
+bindDrop($("dz2"), $("file2"), async files=>{
+  const f=files[0]; if(!f || f.type!=="application/pdf"){ toast("请选择 PDF 文件", true); return; }
+  loading(true,"正在读取 PDF…");
+  try{
+    pdf2.fileSize=f.size;
+    const buf=await f.arrayBuffer();
+    pdf2.doc=await pdfjsLib.getDocument({data:buf}).promise;
+    pdf2.page=1; pdf2.strokes={};
+    $("work2").style.display="block"; $("dz2").style.display="none";
+    updateSizeInfo2();
+    await renderPdf2(); toast("PDF 已载入，共 "+pdf2.doc.numPages+" 页");
+  }catch(err){ toast("PDF 读取失败："+err.message, true); }
+  loading(false);
+});
+function updateSizeInfo2(){
+  if(!pdf2.fileSize){ $("sizeInfo2").style.display="none"; return; }
+  updateTargetOptions("m2target", pdf2.fileSize, $("sizeInfo2"));
+}
+$("m2target").addEventListener("change", updateSizeInfo2);
+/* 马赛克模式用不到颜色，自动隐藏颜色选择器 */
+function syncMaskColor(modeSelId, colorId){ $(colorId).style.display=$(modeSelId).value==="solid"?"":"none"; }
+$("m1mode").addEventListener("change", ()=>syncMaskColor("m1mode","m1color"));
+$("m2mode").addEventListener("change", ()=>syncMaskColor("m2mode","m2color"));
+syncMaskColor("m1mode","m1color"); syncMaskColor("m2mode","m2color");
+async function renderPdf2(){
+  const page=await pdf2.doc.getPage(pdf2.page);
+  const cv=$("cv2");
+  const scale=Math.min(1.6, 820/page.getViewport({scale:1}).width);
+  const vp=page.getViewport({scale});
+  cv.width=vp.width; cv.height=vp.height;
+  const ctx=cv.getContext("2d");
+  ctx.fillStyle="#fff"; ctx.fillRect(0,0,cv.width,cv.height);
+  await page.render({canvasContext:ctx, viewport:vp}).promise;
+  (pdf2.strokes[pdf2.page]||[]).forEach(s=>
+    applyMask(ctx, s.x*cv.width, s.y*cv.height, s.w*cv.width, s.h*cv.height, s.mode, s.size, s.color));
+  $("pgInfo").textContent=pdf2.page+" / "+pdf2.doc.numPages;
+  /* 提示哪些页打过码，避免用户一页页翻着检查 */
+  const masked=Object.keys(pdf2.strokes).filter(k=>pdf2.strokes[k]&&pdf2.strokes[k].length).map(k=>+k).sort((a,b)=>a-b);
+  /* 已打码页较多时截断显示，避免撑乱翻页条 */
+  const MAX_SHOW=8;
+  const shown=masked.length>MAX_SHOW ? masked.slice(0,MAX_SHOW).join("、")+" 等 "+masked.length+" 页" : masked.join("、");
+  $("pgMasked").textContent=masked.length?("已打码页："+shown):"";
+}
+$("cv2").addEventListener("pointerdown", e=>{ pdf2.drawing=true; const p=getPos($("cv2"),e); pdf2.sx=p.x; pdf2.sy=p.y;
+  $("cv2").setPointerCapture(e.pointerId); });
+$("cv2").addEventListener("pointerup", e=>{
+  if(!pdf2.drawing) return; pdf2.drawing=false;
+  const cv=$("cv2"), p=getPos(cv,e);
+  const w=Math.abs(p.x-pdf2.sx)/cv.width, h=Math.abs(p.y-pdf2.sy)/cv.height;
+  if(w*cv.width<6||h*cv.height<6){ toast("区域太小啦", true); return; }
+  if(!pdf2.strokes[pdf2.page]) pdf2.strokes[pdf2.page]=[];
+  pdf2.strokes[pdf2.page].push({ x:Math.min(p.x,pdf2.sx)/cv.width, y:Math.min(p.y,pdf2.sy)/cv.height, w, h,
+    mode:$("m2mode").value, size:40, color:$("m2color").value });
+  renderPdf2();
+});
+$("btnUndo2").onclick=()=>{ const arr=pdf2.strokes[pdf2.page]||[];
+  if(!arr.length){ toast("本页没有打码记录", true); return; } arr.pop(); renderPdf2(); };
+$("btnClear2").onclick=async ()=>{ if(!pdf2.doc) return;
+  if(!await askConfirm("确定清空【所有页】的打码吗？此操作无法撤销！")) return;
+  pdf2.strokes={}; renderPdf2(); toast("已清空全部打码"); };
+$("btnRe2").onclick=()=>{ if(pdf2.doc){ pdf2.doc.destroy(); pdf2.doc=null; } pdf2.strokes={}; pdf2.fileSize=0;
+  $("work2").style.display="none"; $("dz2").style.display="block"; $("sizeInfo2").style.display="none"; };
+$("pgPrev").onclick=()=>{ if(pdf2.page>1){ pdf2.page--; renderPdf2(); } };
+$("pgNext").onclick=()=>{ if(pdf2.doc && pdf2.page<pdf2.doc.numPages){ pdf2.page++; renderPdf2(); } };
+$("btnPdfSave").onclick=async ()=>{
+  if(!Object.keys(pdf2.strokes).length){ toast("还没有打任何码哦", true); return; }
+  loading(true,"正在导出 PDF…");
+  try{
+    const {jsPDF}=window.jspdf;
+    const totalTarget=+$("m2target").value*1024;
+    const perPage=totalTarget ? totalTarget/pdf2.doc.numPages : 0;
+    let doc=null;
+    for(let i=1;i<=pdf2.doc.numPages;i++){
+      loading(true,"正在导出… 第 "+i+" / "+pdf2.doc.numPages+" 页");
+      const page=await pdf2.doc.getPage(i);
+      const vp1=page.getViewport({scale:1});
+      let s=2, dataURL="";
+      for(let t=0;t<6;t++){
+        const vp=page.getViewport({scale:s});
+        const c=document.createElement("canvas"); c.width=vp.width; c.height=vp.height;
+        const ctx=c.getContext("2d");
+        ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height);
+        await page.render({canvasContext:ctx, viewport:vp}).promise;
+        (pdf2.strokes[i]||[]).forEach(st=>
+          applyMask(ctx, st.x*c.width, st.y*c.height, st.w*c.width, st.h*c.height, st.mode, st.size, st.color));
+        if(!perPage){ dataURL=c.toDataURL("image/jpeg",0.92); break; }
+        const best=await bestJpegUnder(c,"image/jpeg",perPage);
+        if(best.size<=perPage*1.15 || t===5){ dataURL=best.blob ? await blobToDataURL(best.blob) : c.toDataURL("image/jpeg",best.q); break; }
+        s*=0.8;
+      }
+      if(!doc) doc=new jsPDF({unit:"pt", format:[vp1.width, vp1.height], orientation:vp1.width>vp1.height?"l":"p"});
+      else doc.addPage([vp1.width, vp1.height], vp1.width>vp1.height?"l":"p");
+      doc.addImage(dataURL,"JPEG",0,0,vp1.width,vp1.height);
+    }
+    downloadBlob(doc.output("blob"), "已打码.pdf");
+  }catch(err){ toast("导出失败："+err.message, true); }
+  loading(false);
+};
+
+/* ---------- 3. 图片转 PDF ---------- */
+const list3=[];
+bindDrop($("dz3"), $("file3"), files=>{
+  /* 同一批图重复添加时自动跳过，防止列表里出现重复项 */
+  const existed=new Set(list3.map(it=>it.file.name+"_"+it.file.size));
+  const imgs=files.filter(f=>f.type.startsWith("image/"));
+  const fresh=imgs.filter(f=>!existed.has(f.name+"_"+f.size));
+  const skipped=imgs.length-fresh.length;
+  if(!fresh.length && !skipped){ toast("请选择图片文件", true); return; }
+  fresh.forEach(f=>{
+    const item={ file:f, url:URL.createObjectURL(f), w:0, h:0 };
+    const im=new Image();
+    im.onload=()=>{ item.w=im.naturalWidth; item.h=im.naturalHeight; renderList3(); };
+    im.src=item.url;
+    list3.push(item);
+  });
+  renderList3();
+  toast(!fresh.length && skipped ? "所选图片均已存在，未新增图片（跳过 "+skipped+" 张重复）"
+    : skipped ? "已添加 "+fresh.length+" 张，自动跳过 "+skipped+" 张重复图片" : "已添加，可在下方调整顺序");
+});
+function renderList3(){
+  const box=$("list3"); box.innerHTML="";
+  list3.forEach((it,i)=>{
+    const row=document.createElement("div"); row.className="imgitem";
+    const thumb=document.createElement("img"); thumb.src=it.url; row.appendChild(thumb);
+    const nameEl=document.createElement("span"); nameEl.className="name";
+    nameEl.textContent=(i+1)+". "+it.file.name; row.appendChild(nameEl);
+    const mk=(txt,fn)=>{ const b=document.createElement("button"); b.textContent=txt; b.onclick=fn; return b; };
+    row.appendChild(mk("↑", ()=>{ if(i>0){ [list3[i-1],list3[i]]=[list3[i],list3[i-1]]; renderList3(); } }));
+    row.appendChild(mk("↓", ()=>{ if(i<list3.length-1){ [list3[i+1],list3[i]]=[list3[i],list3[i+1]]; renderList3(); } }));
+    row.appendChild(mk("✕", ()=>{ URL.revokeObjectURL(it.url); list3.splice(i,1); renderList3(); }));
+    box.appendChild(row);
+  });
+}
+$("btnGo3").onclick=async ()=>{
+  const ready=list3.filter(it=>it.w>0);
+  if(!ready.length){ toast("请先添加图片", true); return; }
+  loading(true,"正在合成 PDF…");
+  try{
+    const {jsPDF}=window.jspdf;
+    let doc=null;
+    for(const it of ready){
+      /* 统一垫白底转 JPEG，避免 PNG 透明图在 PDF 中变黑底 */
+      const im=await new Promise((ok,bad)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=bad; i.src=it.url; });
+      const c=document.createElement("canvas"); c.width=it.w; c.height=it.h;
+      const ctx=c.getContext("2d");
+      ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height);
+      ctx.drawImage(im,0,0);
+      const data=c.toDataURL("image/jpeg",0.92);
+      if($("p3size").value==="a4"){
+        const PW=595.28, PH=841.89, m=28;
+        const iw=it.w*0.75, ih=it.h*0.75;
+        const k=Math.min((PW-2*m)/iw, (PH-2*m)/ih);
+        const w=iw*k, h=ih*k, x=(PW-w)/2, y=(PH-h)/2;
+        if(!doc) doc=new jsPDF({unit:"pt", format:"a4"});
+        else doc.addPage("a4");
+        doc.addImage(data,"JPEG",x,y,w,h);
+      }else{
+        const w=it.w*0.75, h=it.h*0.75;
+        if(!doc) doc=new jsPDF({unit:"pt", format:[w,h], orientation:w>h?"l":"p"});
+        else doc.addPage([w,h], w>h?"l":"p");
+        doc.addImage(data,"JPEG",0,0,w,h);
+      }
+    }
+    downloadBlob(doc.output("blob"), "图片合并.pdf", ready.length+" 张图片");
+    const pending=list3.length-ready.length;
+    if(pending) toast("注意：有 "+pending+" 张图片还没读取完成，未包含进本次 PDF，可稍后重新合成", true);
+  }catch(err){ toast("合成失败："+err.message, true); }
+  loading(false);
+};
+
+/* ---------- 4. PDF 转图片 ---------- */
+const pdf4={ doc:null, page:1, name:"pdf" };
+bindDrop($("dz4"), $("file4"), async files=>{
+  const f=files[0]; if(!f || f.type!=="application/pdf"){ toast("请选择 PDF 文件", true); return; }
+  loading(true,"正在读取 PDF…");
+  try{
+    pdf4.fileSize=f.size;
+    const buf=await f.arrayBuffer();
+    pdf4.doc=await pdfjsLib.getDocument({data:buf}).promise;
+    pdf4.page=1; pdf4.name=baseName(f.name);
+    $("work4").style.display="block"; $("dz4").style.display="none";
+    updateSizeInfo4();
+    await renderPdf4(); toast("PDF 已载入，共 "+pdf4.doc.numPages+" 页");
+  }catch(err){ toast("PDF 读取失败："+err.message, true); }
+  loading(false);
+});
+function updateSizeInfo4(){
+  if(!pdf4.fileSize){ $("sizeInfo4").style.display="none"; return; }
+  /* 目标是“每页”大小，判断基准应为平均每页大小（即总目标 < 现有总大小），而不是整个 PDF 的大小 */
+  const perPage=pdf4.doc ? pdf4.fileSize/pdf4.doc.numPages : pdf4.fileSize;
+  updateTargetOptions("p4target", pdf4.fileSize, $("sizeInfo4"),
+    "　<i style='color:#8a7a6d'>(目标按每页计算；平均每页 ≈ "+fmtSize(perPage)+"，目标需小于该值)</i>", perPage);
+}
+$("p4target").addEventListener("change", updateSizeInfo4);
+async function renderPdf4(){
+  const page=await pdf4.doc.getPage(pdf4.page);
+  const cv=$("cv4");
+  const scale=Math.min(1.6, 820/page.getViewport({scale:1}).width);
+  const vp=page.getViewport({scale});
+  cv.width=vp.width; cv.height=vp.height;
+  const ctx=cv.getContext("2d");
+  ctx.fillStyle="#fff"; ctx.fillRect(0,0,cv.width,cv.height);
+  await page.render({canvasContext:ctx, viewport:vp}).promise;
+  $("pgInfo4").textContent=pdf4.page+" / "+pdf4.doc.numPages;
+}
+$("btnRe4").onclick=()=>{ if(pdf4.doc){ pdf4.doc.destroy(); pdf4.doc=null; } pdf4.fileSize=0;
+  $("work4").style.display="none"; $("dz4").style.display="block"; $("sizeInfo4").style.display="none"; };
+$("pgPrev4").onclick=()=>{ if(pdf4.page>1){ pdf4.page--; renderPdf4(); } };
+$("pgNext4").onclick=()=>{ if(pdf4.doc && pdf4.page<pdf4.doc.numPages){ pdf4.page++; renderPdf4(); } };
+async function renderPageCanvas4(pageNo, scale){
+  const page=await pdf4.doc.getPage(pageNo);
+  const vp=page.getViewport({scale});
+  const c=document.createElement("canvas"); c.width=vp.width; c.height=vp.height;
+  const ctx=c.getContext("2d");
+  ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height);
+  await page.render({canvasContext:ctx, viewport:vp}).promise;
+  return c;
+}
+$("btnOne4").onclick=async ()=>{
+  loading(true,"正在导出当前页…");
+  try{
+    const c=await renderPageCanvas4(pdf4.page, +$("p4scale").value);
+    const fmt=$("p4fmt").value, target=+$("p4target").value*1024;
+    const blob=await encodeToTarget(c, fmt, target, 0.92);
+    const ext=FMT_EXT[fmt];
+    downloadBlob(blob, pdf4.name+"_第"+pdf4.page+"页."+ext, target?("实际 "+fmtSize(blob.size)):null);
+  }catch(err){ toast("导出失败："+err.message, true); }
+  loading(false);
+};
+$("btnAll4").onclick=async ()=>{
+  loading(true,"正在导出全部页面…");
+  try{
+    const zip=new JSZip();
+    const fmt=$("p4fmt").value, ext=FMT_EXT[fmt], target=+$("p4target").value*1024;
+    let total=0;
+    for(let i=1;i<=pdf4.doc.numPages;i++){
+      loading(true,"正在导出… 第 "+i+" / "+pdf4.doc.numPages+" 页");
+      const c=await renderPageCanvas4(i, +$("p4scale").value);
+      const b=await encodeToTarget(c, fmt, target, 0.92);
+      total+=b.size;
+      zip.file("第"+i+"页."+ext, b);
+    }
+    const blob=await zip.generateAsync({type:"blob"});
+    downloadBlob(blob, pdf4.name+"_全部页面.zip", "共 "+pdf4.doc.numPages+" 页，图片合计 "+fmtSize(total));
+  }catch(err){ toast("导出失败："+err.message, true); }
+  loading(false);
+};
+
+/* ---------- 5. 图片格式转换 ---------- */
+/* Canvas → 24位 BMP（浏览器不原生支持，手动编码） */
+function canvasToBMP(canvas){
+  const w=canvas.width, h=canvas.height;
+  const d=canvas.getContext("2d").getImageData(0,0,w,h).data;
+  const rowSize=Math.floor((24*w+31)/32)*4, imgSize=rowSize*h, fileSize=54+imgSize;
+  const buf=new ArrayBuffer(fileSize), dv=new DataView(buf);
+  dv.setUint8(0,0x42); dv.setUint8(1,0x4D);
+  dv.setUint32(2,fileSize,true); dv.setUint32(10,54,true);
+  dv.setUint32(14,40,true); dv.setInt32(18,w,true); dv.setInt32(22,h,true);
+  dv.setUint16(26,1,true); dv.setUint16(28,24,true); dv.setUint32(34,imgSize,true);
+  dv.setInt32(38,2835,true); dv.setInt32(42,2835,true);
+  let off=54;
+  for(let y=h-1;y>=0;y--){
+    let p=off;
+    for(let x=0;x<w;x++){
+      const i=(y*w+x)*4;
+      dv.setUint8(p++,d[i+2]); dv.setUint8(p++,d[i+1]); dv.setUint8(p++,d[i]);
+    }
+    off+=rowSize;
+  }
+  return new Blob([buf],{type:"image/bmp"});
+}
+const FMT_EXT={png:"png",jpeg:"jpg",webp:"webp",bmp:"bmp",pdf:"pdf"};
+/* Canvas → 目标格式 Blob（统一出口，格式转换/压缩共用） */
+async function encodeCanvas(canvas, fmt, q){
+  if(fmt==="bmp") return canvasToBMP(canvas);
+  if(fmt==="pdf"){
+    const {jsPDF}=window.jspdf;
+    const w=canvas.width*0.75, h=canvas.height*0.75;
+    const doc=new jsPDF({unit:"pt", format:[w,h], orientation:w>h?"l":"p"});
+    doc.addImage(canvas.toDataURL("image/jpeg",q),"JPEG",0,0,w,h);
+    return doc.output("blob");
+  }
+  return new Promise(res=>canvas.toBlob(res, "image/"+fmt, q));
+}
+
+let res5=[];
+bindDrop($("dz5"), $("file5"), files=>{
+  res5=files.filter(f=>f.type.startsWith("image/")).map(f=>({file:f}));
+  if(!res5.length){ toast("请选择图片文件", true); return; }
+  $("res5").innerHTML=""; $("btnZip5").disabled=true; /* 换文件后清掉旧结果，避免误用 */
+  updateSizeInfo5();
+  toast("已添加 "+res5.length+" 张图片，点击「开始转换」");
+});
+function updateSizeInfo5(){
+  if(!res5.length){ $("sizeInfo5").style.display="none"; return; }
+  const total=res5.reduce((s,it)=>s+it.file.size,0);
+  /* 目标大小是“每张”压到多大，判断基准应为平均每张大小，而不是全部文件的总大小 */
+  const avg=total/res5.length;
+  updateTargetOptions("p5target", total, $("sizeInfo5"),
+    "　<i style='color:#8a7a6d'>(共 "+res5.length+" 张，目标按每张计算；平均每张 ≈ "+fmtSize(avg)+")</i>", avg);
+}
+$("p5target").addEventListener("change", updateSizeInfo5);
+$("btnGo5").onclick=async ()=>{
+  if(!res5.length){ toast("请先选择图片", true); return; }
+  const fmt=$("p5fmt").value, q=0.92, target=+$("p5target").value*1024;
+  if(target && res5.reduce((s,it)=>s+it.file.size,0)/res5.length<=target){ toast("目标大小需要小于平均每张大小哦", true); return; }
+  loading(true,"正在转换…");
+  const box=$("res5"); box.innerHTML="";
+  try{
+    for(const [ri,it] of res5.entries()){
+      loading(true,"正在转换… 第 "+(ri+1)+" / "+res5.length+" 张");
+      const url=URL.createObjectURL(it.file);
+      const im=await new Promise((ok,bad)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=bad; i.src=url; });
+      const c=document.createElement("canvas"); c.width=im.naturalWidth; c.height=im.naturalHeight;
+      const ctx=c.getContext("2d");
+      if(fmt==="jpeg"||fmt==="pdf"||fmt==="bmp"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height); } /* bmp 不支持透明，同样垫白底 */
+      ctx.drawImage(im,0,0);
+      it.blob=await encodeToTarget(c, fmt, target, q);
+      it.outName=baseName(it.file.name)+"."+FMT_EXT[fmt];
+      const row=document.createElement("div"); row.className="row";
+      const info=document.createElement("span");
+      info.textContent="✅ "+it.file.name+" → "+it.outName+"（"+(it.blob.size/1024).toFixed(1)+" KB）";
+      row.appendChild(info);
+      const sp=document.createElement("span"); sp.style.flex="1"; row.appendChild(sp);
+      const a=document.createElement("a"); a.href=URL.createObjectURL(it.blob); a.download=it.outName;
+      a.textContent="下载"; row.appendChild(a); box.appendChild(row);
+      URL.revokeObjectURL(url);
+    }
+    $("btnZip5").disabled=false;
+    toast("转换完成！");
+  }catch(err){ toast("转换失败："+err.message, true); }
+  loading(false);
+};
+$("btnZip5").onclick=async ()=>{
+  if(!res5.some(it=>it.blob)) return;
+  loading(true,"正在打包…");
+  const zip=new JSZip();
+  res5.forEach(it=>{ if(it.blob) zipUniqueAdd(zip, it.outName, it.blob); });
+  const blob=await zip.generateAsync({type:"blob"});
+  downloadBlob(blob, "转换结果.zip", res5.filter(it=>it.blob).length+" 个文件");
+  loading(false);
+};
+
+/* ---------- 6. 图片压缩 ---------- */
+let res6=[];
+bindDrop($("dz6"), $("file6"), files=>{
+  res6=files.filter(f=>f.type.startsWith("image/")).map(f=>({file:f}));
+  if(!res6.length){ toast("请选择图片文件", true); return; }
+  $("res6").innerHTML=""; $("btnZip6").disabled=true; /* 换文件后清掉旧结果，避免误用 */
+  updateSizeInfo6();
+  toast("已添加 "+res6.length+" 张图片，点击「开始压缩」");
+});
+/* 显示现有大小；目标大小是“每张”，置灰判断统一走公共函数（基准=平均每张大小） */
+function updateSizeInfo6(){
+  if(!res6.length){ $("sizeInfo6").style.display="none"; return; }
+  const total=res6.reduce((s,it)=>s+it.file.size,0);
+  const avg=total/res6.length;
+  updateTargetOptions("p6target", total, $("sizeInfo6"),
+    "　<i style='color:#8a7a6d'>(共 "+res6.length+" 张，目标按每张计算；平均每张 ≈ "+fmtSize(avg)+")</i>", avg);
+}
+$("p6target").addEventListener("change", updateSizeInfo6);
+$("btnGo6").onclick=async ()=>{
+  if(!res6.length){ toast("请先选择图片", true); return; }
+  const fmt=$("p6fmt").value, q=0.8;
+  let maxSide=+$("p6max").value;
+  const target=+$("p6target").value*1024;
+  if(target) maxSide=0; /* 指定目标大小时，尺寸交给智能压缩按需调整 */
+  if(target && res6.reduce((s,it)=>s+it.file.size,0)/res6.length<=target){ toast("目标大小需要小于平均每张大小哦", true); return; }
+  loading(true,"正在压缩…");
+  const box=$("res6"); box.innerHTML="";
+  try{
+    let totalOld=0, totalNew=0;
+    for(const [ri,it] of res6.entries()){
+      loading(true,"正在压缩… 第 "+(ri+1)+" / "+res6.length+" 张");
+      const url=URL.createObjectURL(it.file);
+      const im=await new Promise((ok,bad)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=bad; i.src=url; });
+      let nw=im.naturalWidth, nh=im.naturalHeight;
+      if(maxSide>0){
+        const k=Math.min(1, maxSide/Math.max(nw,nh));
+        nw=Math.round(nw*k); nh=Math.round(nh*k);
+      }
+      const c=document.createElement("canvas"); c.width=nw; c.height=nh;
+      const ctx=c.getContext("2d");
+      if(fmt==="jpeg"){ ctx.fillStyle="#fff"; ctx.fillRect(0,0,nw,nh); }
+      ctx.drawImage(im,0,0,nw,nh);
+      it.blob=await encodeToTarget(c, fmt, target, q);
+      it.outName=baseName(it.file.name)+"_压缩."+FMT_EXT[fmt];
+      totalOld+=it.file.size; totalNew+=it.blob.size;
+      const bigger=it.blob.size>it.file.size;
+      const saved=((1-it.blob.size/it.file.size)*100).toFixed(0);
+      const row=document.createElement("div"); row.className="row";
+      const info=document.createElement("span");
+      info.textContent="✅ "+it.file.name+"　"+fmtSize(it.file.size)+" → "+fmtSize(it.blob.size);
+      row.appendChild(info);
+      const badge=document.createElement("span");
+      if(bigger){ badge.style.color="#e05252"; badge.style.fontWeight="bold"; badge.textContent="⚠ 比原图更大！建议保留原图"; }
+      else{ badge.style.color="#27a05c"; badge.style.fontWeight="bold"; badge.textContent="-"+saved+"%"; }
+      row.appendChild(badge);
+      if(nw!==im.naturalWidth||nh!==im.naturalHeight){
+        const dims=document.createElement("span");
+        dims.style.color="#8a7a6d";
+        dims.textContent=im.naturalWidth+"×"+im.naturalHeight+" → "+nw+"×"+nh;
+        row.appendChild(dims);
+      }
+      const sp=document.createElement("span"); sp.style.flex="1"; row.appendChild(sp);
+      const a=document.createElement("a"); a.href=URL.createObjectURL(it.blob); a.download=it.outName;
+      a.textContent="下载"; row.appendChild(a); box.appendChild(row);
+      URL.revokeObjectURL(url);
+    }
+    const tot=document.createElement("div"); tot.className="row";
+    const totInfo=document.createElement("span");
+    totInfo.textContent="📦 合计："+fmtSize(totalOld)+" → "+fmtSize(totalNew);
+    tot.appendChild(totInfo);
+    const totBadge=document.createElement("span");
+    if(totalNew>=totalOld){ totBadge.style.color="#e05252"; totBadge.style.fontWeight="bold";
+      totBadge.textContent="⚠ 整体反而变大了，建议降低目标或保留原图"; }
+    else{ totBadge.style.color="#27a05c"; totBadge.style.fontWeight="bold";
+      totBadge.textContent="共节省 "+fmtSize(totalOld-totalNew); }
+    tot.appendChild(totBadge);
+    box.appendChild(tot);
+    $("btnZip6").disabled=false;
+    toast("压缩完成！");
+  }catch(err){ toast("压缩失败："+err.message, true); }
+  loading(false);
+};
+$("btnZip6").onclick=async ()=>{
+  if(!res6.some(it=>it.blob)) return;
+  loading(true,"正在打包…");
+  const zip=new JSZip();
+  res6.forEach(it=>{ if(it.blob) zipUniqueAdd(zip, it.outName, it.blob); });
+  const blob=await zip.generateAsync({type:"blob"});
+  downloadBlob(blob, "压缩结果.zip", res6.filter(it=>it.blob).length+" 个文件");
+  loading(false);
+};
+
+/* ---------- 7. PDF 压缩 ---------- */
+const pdf7={ doc:null, name:"pdf", fileSize:0 };
+bindDrop($("dz7"), $("file7"), async files=>{
+  const f=files[0]; if(!f || f.type!=="application/pdf"){ toast("请选择 PDF 文件", true); return; }
+  loading(true,"正在读取 PDF…");
+  try{
+    pdf7.fileSize=f.size; pdf7.name=baseName(f.name);
+    const buf=await f.arrayBuffer();
+    pdf7.doc=await pdfjsLib.getDocument({data:buf}).promise;
+    $("work7").style.display="block"; $("dz7").style.display="none";
+    $("pdf7name").textContent=f.name;
+    updateSizeInfo7();
+    toast("PDF 已载入，共 "+pdf7.doc.numPages+" 页");
+  }catch(err){ toast("PDF 读取失败："+err.message, true); }
+  loading(false);
+});
+function updateSizeInfo7(){
+  if(!pdf7.fileSize){ $("sizeInfo7").style.display="none"; return; }
+  updateTargetOptions("p7target", pdf7.fileSize, $("sizeInfo7"));
+}
+$("p7target").addEventListener("change", updateSizeInfo7);
+$("btnReset7").onclick=()=>{ if(pdf7.doc){ pdf7.doc.destroy(); pdf7.doc=null; } pdf7.fileSize=0; $("work7").style.display="none"; $("dz7").style.display="block"; };
+$("btnGo7").onclick=async ()=>{
+  if(!pdf7.doc){ toast("请先选择 PDF 文件", true); return; }
+  const target=+$("p7target").value*1024;
+  if(target && target>=pdf7.fileSize){ toast("目标大小需要小于现有大小哦", true); return; }
+  loading(true,"正在压缩 PDF…");
+  try{
+    const {jsPDF}=window.jspdf;
+    const perPage=target ? target/pdf7.doc.numPages : 0;
+    let doc=null;
+    for(let i=1;i<=pdf7.doc.numPages;i++){
+      loading(true,"正在压缩… 第 "+i+" / "+pdf7.doc.numPages+" 页");
+      const page=await pdf7.doc.getPage(i);
+      const vp1=page.getViewport({scale:1});
+      let s=2, dataURL="";
+      for(let t=0;t<6;t++){
+        const vp=page.getViewport({scale:s});
+        const c=document.createElement("canvas"); c.width=vp.width; c.height=vp.height;
+        const ctx=c.getContext("2d");
+        ctx.fillStyle="#fff"; ctx.fillRect(0,0,c.width,c.height);
+        await page.render({canvasContext:ctx, viewport:vp}).promise;
+        if(!perPage){ dataURL=c.toDataURL("image/jpeg",0.8); break; }
+        const best=await bestJpegUnder(c,"image/jpeg",perPage);
+        if(best.size<=perPage*1.15 || t===5){ dataURL=best.blob ? await blobToDataURL(best.blob) : c.toDataURL("image/jpeg",best.q); break; }
+        s*=0.8;
+      }
+      if(!doc) doc=new jsPDF({unit:"pt", format:[vp1.width, vp1.height], orientation:vp1.width>vp1.height?"l":"p"});
+      else doc.addPage([vp1.width, vp1.height], vp1.width>vp1.height?"l":"p");
+      doc.addImage(dataURL,"JPEG",0,0,vp1.width,vp1.height);
+    }
+    const out=doc.output("blob");
+    /* 压缩效果放进保存提示里，避免被覆盖；未达标时明确警告 */
+    const detail = out.size>=pdf7.fileSize
+      ? "⚠ 未达到压缩效果（"+fmtSize(out.size)+" ≥ 原文件 "+fmtSize(pdf7.fileSize)+"），建议继续使用原文件"
+      : "原 "+fmtSize(pdf7.fileSize)+" → 现在 "+fmtSize(out.size);
+    downloadBlob(out, pdf7.name+"_压缩.pdf", detail);
+  }catch(err){ toast("压缩失败："+err.message, true); }
+  loading(false);
+};
+</script>
+</body>
+</html>
